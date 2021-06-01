@@ -1,24 +1,19 @@
 <template>
-<div class="card gedf-card">
+  <div class="card gedf-card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="http://www.pngall.com/wp-content/uploads/5/Profile-PNG-Clipart.png" alt="">
+                                    <img class="rounded-circle" width="45" src="https://res.cloudinary.com/demo/image/upload/s--XzUAIh3B--/c_imagga_crop/bo_1px_solid_rgb:aaa,c_pad,h_200,w_200/fat_cat.jpg" alt="">
                                 </div>
                                 <div class="ml-2">
-                                    <div class="h5 m-0">Chanvirakboth RITH</div>
-                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
+                                    <div class="name">Chanvirakboth </div>
+                                    <div class="username">@Chanvirakboth_1231</div>
                                 </div>
+                                <div class="timer">11/12/2012</div>
                             </div>
                             <div>
-                                <div class="dropdown">
-                                    <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chevron-down"></i></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item text-primary" href="#">Edit</a>
-                                        <a class="dropdown-item text-primary" href="#">Delete</a>
-                                    </div>
-                                </div>
+                              <p>{{ counter }} likes </p>
                             </div>
                         </div>
                     </div>
@@ -28,12 +23,12 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link1"><i class="fa fa-heart"></i>Like</a>
+                        <a href="#" class="card-link1"><i class="far fa-heart"></i> Like</a>
                         <a href="#" class="card-link2"><i class="fa fa-comment"></i> Comment</a>
-                        <a href="#" class="card-link3"><i class="fa fa-mail-forward"></i> Share</a>
                     </div>
-</div>
+                </div>
 </template>
+
 <script>
 import { } from ''
 
@@ -56,37 +51,44 @@ export default ({
 @import 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
 .card {
-  border-radius: 20px;
+  background-color: #A79BAC;
+  border-radius: 10px;
 }
 .card-header {
+  color: white;
   background-color: transparent;
   border: 0px;
+  border-radius: 20px;
   height: 60px;
 }
+.name {
+  font-size: 15px;
+}
+.username {
+  margin-top: 0px;
+  color: lightgray;
+  font-size: 15px;
+}
 .card-body{
-  background-color: transparent;
-  border-radius: 20px;
+  background-color: transparent;;
+  color: white;
 }
 .card-footer {
   background-color: transparent;
+  border-radius: 20px;
+  border: 0px;
 }
 .card-link1{
-  color: black;
-  margin: 50px;
+  margin: 10px;
+  color: white;
 }
 .card-link2 {
-  color: black;
-  margin: 50px; 
+  color: white;
+  margin: 10px; 
 }
-.card-link3 {
-  color: black;
-  margin: 50px;
-}
-.text-muted {
-  font-size: 13px;
-  color: lightslategrey;
-}
-.h5 {
-  font-size: 20px;
+.timer{ 
+  text-align: right;
+  font-size: 10px;
+  color: white;
 }
 </style>
