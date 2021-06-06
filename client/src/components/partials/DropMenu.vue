@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown-wrapper">
     <div class="dropdown">
-      <router-link class="item" :to="'/profile/' + id" @click="navigate"
+      <router-link class="item" :to="'/profile/' + username" @click="navigate"
         ><i class="fa fa-user"></i>See your profile
       </router-link>
       <div class="item" @click="openEdit">
@@ -32,8 +32,8 @@
     },
     computed: {
       ...mapState(["user"]),
-      id() {
-        return this.user._id;
+      username() {
+        return this.user.username;
       },
     },
   };

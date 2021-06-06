@@ -4,8 +4,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
-
+const crypto = require("crypto");
 const User = require("../models/User");
+
+function randomString(size = 12) {
+  return crypto.randomBytes(size).toString("hex").toUpperCase().slice(0, size);
+}
 
 // @route     POST api/register
 // @desc      Regiter a user
@@ -27,14 +31,27 @@ router.post(
     const { name, email, password, major, interests } = req.body;
 
     try {
-      const foundUser = await User.findOne({ email });
+      let foundUser = await User.findOne({ email });
       // Check if the user's email is already exist
       if (foundUser)
         return res.status(400).json({ msg: "User already exists!" });
+      // Check if generated randomString is already existed
+      let username = randomString();
+      let isRunning = true;
+      while (isRunning) {
+        foundUser = await User.findOne({ username });
+        if (foundUser) {
+          username = randomString();
+        } else {
+          isRunning = false;
+        }
+      }
 
       const profileImage = "uploads/profile_stub_image.png";
+
       const user = new User({
         name,
+        username,
         email,
         password,
         major,
