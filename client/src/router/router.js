@@ -39,11 +39,25 @@ const routes = [
   },
   {
     name: "Profile",
-    path: "/profile",
+    path: "/profile/:id",
     component: Profile,
     meta: {
       requireAuth: true,
     },
+    children: [
+      {
+        name: "Posts",
+        path: "posts",
+      },
+      {
+        name: "Followers",
+        path: "followers",
+      },
+      {
+        name: "Followings",
+        path: "followings",
+      },
+    ],
   },
   {
     path: "/:pathMatch(.*)",
@@ -54,9 +68,10 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-router.beforeResolve(async (to, from) => {
+router.beforeEach(async (to, from) => {
   const requiresAuth = to.matched.some((record) => record.meta.requireAuth);
   const canAccess = await store.dispatch("canAccess");
+
   if (requiresAuth && !canAccess) {
     return `${from.path}`;
   }

@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const cryptoRandomString = require("crypto-random-string");
+
 const app = express();
 
 const multer = require("multer");
@@ -32,5 +34,6 @@ app.use("/api/post", postRoute);
 app.use("/api/profile", profileRoute);
 
 const PORT = process.env.PORT || 5000;
+console.log(cryptoRandomString({ length: 10, type: "base64" }));
 
 app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));

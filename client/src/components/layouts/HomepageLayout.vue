@@ -1,6 +1,5 @@
 <template>
-  <div style="position: relative;">
-    <HomepageNav />
+  <TemplateLayout>
     <div class="container-fluid homepage-wrapper mt-md-4">
       <div class="row">
         <div class="col-md-3 d-none d-md-block" style="padding: 0;">
@@ -9,46 +8,43 @@
         <div class="col-md-6 posts-wrapper">
           <slot />
         </div>
-        <div class="col-md-3 d-none d-md-block hi"></div>
+        <div class="col-md-3 d-none d-md-block p-0">
+          <Communities class="right-container" />
+          <DirectMessage class="right-container" />
+        </div>
       </div>
     </div>
-    <transition name="slide-fade">
-      <ProfileEdit v-if="$store.state.isEdit" />
-    </transition>
-  </div>
+  </TemplateLayout>
 </template>
 
 <script>
-  import HomepageNav from "../partials/HomepageNav";
+  import TemplateLayout from "./Template.vue";
   import HomepageProfile from "../Homepage/HomepageProfile";
-  import ProfileEdit from "../partials/ProfileEdit";
+  import Communities from "../Homepage/Communities";
+  import DirectMessage from "../Homepage/DirectMessage";
 
   export default {
-    components: { HomepageNav, HomepageProfile, ProfileEdit },
+    components: {
+      TemplateLayout,
+      HomepageProfile,
+      Communities,
+      DirectMessage,
+    },
   };
 </script>
 
 <style scoped>
   .homepage-wrapper {
     padding: 0 4em;
+    position: relative;
+    height: 100%;
   }
-
-  .hi {
+  .right-container {
     background: var(--surface-l1);
+    height: 250px;
+    max-height: 100%;
     border-radius: 10px;
-  }
-  .slide-fade-enter-active {
-    transition: all 0.3s ease-out;
-  }
-
-  .slide-fade-leave-active {
-    transition: all 0.3s ease-out;
-  }
-
-  .slide-fade-enter-from,
-  .slide-fade-leave-to {
-    transform: translateY(-20px);
-    opacity: 0;
+    margin-bottom: 1em;
   }
 
   @media screen and (max-width: 786px) {

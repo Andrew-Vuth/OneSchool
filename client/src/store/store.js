@@ -10,6 +10,7 @@ const store = createStore({
     isAuthenticated: false,
     loading: true,
     user: null,
+    targetUser: null,
     token: localStorage.getItem("token"),
     isEdit: false,
     openMenu: false,
@@ -30,6 +31,9 @@ const store = createStore({
     setUser(state, user) {
       state.user = user;
     },
+    setTargetUser(state, user) {
+      state.targetUser = user;
+    },
     setIsEdit(state, value) {
       state.isEdit = value;
     },
@@ -46,11 +50,33 @@ const store = createStore({
       }
 
       try {
-        const res = await axios.get("/api/auth/");
+        const res = await axios.get("/api/auth/", {
+          onDownloadProgress: (event) => {
+            let percent = Math.round((event.loaded / event.total) * 100);
+            console.log(percent);
+            console.log(event.total);
+            console.log(event.loaded);
+          },
+        });
         commit("setUser", res.data.user);
         commit("isAuth");
         commit("isNotLoading");
-        router.push("/homepage");
+      } catch (error) {
+        console.error(error.response);
+      }
+    },
+    // @des: Load Target User
+    async getTargetUser({ commit }, id) {
+      // If there's a token, then set the token to header
+      if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
+      console.log(id);
+
+      try {
+        const res = await axios.get(`/api/auth/${id}`, {});
+        commit("setTargetUser", res.data.user);
+        console.log("Target user:", this.state.targetUser);
       } catch (error) {
         console.error(error.response);
       }
@@ -89,6 +115,7 @@ const store = createStore({
 
         // Calling getUser to load user after login
         this.dispatch("getUser");
+        router.push("/homepage");
       } catch (error) {
         console.error(error.response.data);
       }
@@ -111,6 +138,7 @@ const store = createStore({
 
         // Calling getUser to load user after registering
         this.dispatch("getUser");
+        router.push("/homepage");
       } catch (error) {
         console.error(error.response.data);
       }

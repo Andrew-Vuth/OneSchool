@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view style="height: 100%" />
 </template>
 
 <script>
@@ -38,6 +38,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #ffff;
+    height: 100vh;
   }
   a {
     text-decoration: none;
@@ -46,6 +47,9 @@
   a:hover {
     text-decoration: none;
     color: #fff;
+  }
+  p {
+    word-break: break-all;
   }
   /* Form style */
 
@@ -113,6 +117,20 @@
     resize: none;
     width: 100%;
     height: 100px;
+  }
+  /* Transistion style */
+  .slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .slide-fade-leave-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .slide-fade-enter-from,
+  .slide-fade-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
   }
   @media screen and (min-width: 867px) {
     /* custom scrollbar */

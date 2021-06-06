@@ -178,16 +178,18 @@
 <style scoped>
   .profile-edit-wrapper {
     z-index: 100;
-    position: absolute;
+    position: sticky;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     background: #00000058;
-    padding: 2em;
-    padding-bottom: 10em;
+    /* padding: 2em;
+    padding-bottom: 10em; */
   }
   .edit-container {
     transition: 0.3s ease-in;

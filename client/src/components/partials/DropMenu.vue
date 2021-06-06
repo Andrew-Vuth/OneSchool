@@ -1,9 +1,9 @@
 <template>
   <div class="dropdown-wrapper">
     <div class="dropdown">
-      <router-link class="item" to="/profile"
-        ><i class="fa fa-user"></i>See your profile</router-link
-      >
+      <router-link class="item" :to="'/profile/' + id" @click="navigate"
+        ><i class="fa fa-user"></i>See your profile
+      </router-link>
       <div class="item" @click="openEdit">
         <i class="fas fa-pen"></i>
         Edit your profile
@@ -16,16 +16,24 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
   export default {
-    data() {},
-
     methods: {
+      navigate() {
+        this.$store.commit("setOpenMenu", false);
+      },
       openEdit() {
         this.$store.commit("setOpenMenu", false);
         this.$store.commit("setIsEdit", true);
       },
       logout() {
         this.$store.dispatch("logout");
+      },
+    },
+    computed: {
+      ...mapState(["user"]),
+      id() {
+        return this.user._id;
       },
     },
   };
