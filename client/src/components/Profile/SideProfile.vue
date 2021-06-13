@@ -1,53 +1,64 @@
 <template>
   <div class="container-fluid sideProfile-wrapper">
     <div class="row text-md-center">
-      <div class="col-4 col-md-12" style="position: relativ;">
+      <div class="col-3 col-md-12" style="position: relative;">
         <img
-          :src="src + user.profileImage"
+          :src="src + targetUser.profileImage"
           alt="profile"
           class="img-fluid profileImage"
         />
-        <button v-if="ownProfile" class="btn ghost-btn cta-btn">
+        <div class="d-none d-md-block">
+          <button
+            v-if="ownProfile"
+            class="btn ghost-btn cta-btn"
+            @click="openEdit"
+          >
+            Edit Profile
+          </button>
+          <button v-else class="btn one-school-btn cta-btn">
+            <i class="fa fa-plus" style="margin-right: 0.2em"></i>
+            Follow
+          </button>
+        </div>
+      </div>
+      <div class="col-9 col-md-12 name mt-md-4">
+        <h4>{{ targetUser.name }}</h4>
+        <p>@{{ targetUser.username }}</p>
+      </div>
+    </div>
+    <div class="row info px-lg-2">
+      <div class="col-12 col-md-12 mb-md-3 my-3">
+        <p>
+          {{ targetUser.bio }}
+        </p>
+      </div>
+      <div class="col-6 col-md-12 mb-md-3">
+        <p>
+          <i class="fas fa-graduation-cap"></i>
+
+          {{ targetUser.major }}
+        </p>
+      </div>
+      <div class="col-6 col-md-12 mb-md-3">
+        <p>
+          <i class="fas fa-guitar"></i>
+          {{ targetUser.interests }}
+        </p>
+      </div>
+    </div>
+    <div class="row d-block d-md-none">
+      <div class="col-12">
+        <button
+          v-if="ownProfile"
+          class="btn ghost-btn cta-btn cta-md-btn"
+          @click="openEdit"
+        >
           Edit Profile
         </button>
-        <button v-else class="btn one-school-btn cta-btn">
+        <button v-else class="btn one-school-btn cta-btn cta-md-btn">
           <i class="fa fa-plus" style="margin-right: 0.2em"></i>
           Follow
         </button>
-      </div>
-      <div class="col-8 col-md-12 name">
-        <h4>{{ user.name }}</h4>
-        <p>@{{ user.username }}</p>
-      </div>
-    </div>
-    <div class="row info">
-      <div class="col-12">
-        <p>
-          Bio :
-        </p>
-        <p>
-          {{ user.bio }}
-        </p>
-      </div>
-    </div>
-    <div class="row info">
-      <div class="col-12">
-        <p>
-          Major :
-        </p>
-        <p>
-          {{ user.major }}
-        </p>
-      </div>
-    </div>
-    <div class="row info">
-      <div class="col-12">
-        <p>
-          Interests :
-        </p>
-        <p>
-          {{ user.interests }}
-        </p>
       </div>
     </div>
   </div>
@@ -65,10 +76,16 @@
             : "",
       };
     },
+
     computed: {
-      ...mapState(["user"]),
+      ...mapState(["targetUser", "user"]),
       ownProfile() {
-        return this.user._id == this.$route.params.id;
+        return this.user.username == this.$route.params.username;
+      },
+    },
+    methods: {
+      openEdit() {
+        this.$store.commit("setIsEdit", true);
       },
     },
   };
@@ -89,8 +106,8 @@
     object-fit: cover;
     width: 16vw;
     height: 16vw;
-    min-width: 80px;
-    min-height: 80px;
+    min-width: 65px;
+    min-height: 65px;
   }
   .cta-btn {
     position: absolute;
@@ -101,12 +118,18 @@
   .cta-btn:hover {
     background: #6e6e6e;
   }
+  .cta-md-btn {
+    margin-top: 0.5em;
+    position: static;
+    width: 100%;
+  }
   .one-school-btn.cta-btn:hover {
     background: var(--one-school-secondary);
   }
   .name {
-    margin-top: 1em;
-    margin-bottom: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .name h4 {
     font-weight: 600;
@@ -115,15 +138,23 @@
   .name p {
     opacity: 0.5;
   }
-  .info .col-12 p:first-child {
-    font-weight: 600;
-    margin-bottom: 0.1em;
+  .info .col-md-12 {
+    opacity: 0.5;
   }
-  .info {
-    padding: 0 1em;
-    margin-bottom: 1em;
+  .info .col-6 {
+    /* padding-right: 0; */
   }
-  .info p {
-    word-break: keep-all;
+  .info .col-md-12:first-child {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    .sideProfile-wrapper {
+      padding: 15px;
+      font-size: 12px;
+    }
+    .sideProfile-wrapper p {
+      font-size: 12px;
+    }
   }
 </style>

@@ -5,16 +5,18 @@ import Register from "../components/auth/Register";
 import HomePage from "../components/pages/HomePage";
 import Profile from "../components/pages/Profile";
 
+import Posts from "../components/Profile/Posts";
+import Followers from "../components/Profile/Followers";
+import Followings from "../components/Profile/Followings";
+
 import store from "../store/store";
-// const checkAuth = (to) => {
-//   if (
-//     to.name !== "Login" &&
-//     to.name !== "Register" &&
-//     !store.state.isAuthenticated
-//   ) {
-//     return "/";
-//   }
-// };
+
+const fetchUser = () => {
+  store.commit("isLoading");
+
+  // store.dispatch("getTargetUser", to.params.username);
+  // console.log(store.state.targetUser);
+};
 
 const routes = [
   {
@@ -48,16 +50,20 @@ const routes = [
       {
         name: "Posts",
         path: "posts",
+        component: Posts,
       },
       {
         name: "Followers",
         path: "followers",
+        component: Followers,
       },
       {
         name: "Followings",
         path: "followings",
+        component: Followings,
       },
     ],
+    beforeEnter: fetchUser,
   },
   {
     path: "/:pathMatch(.*)",

@@ -10,6 +10,7 @@
       if (localStorage.token) {
         setAuthToken(localStorage.token);
       }
+      this.$store.dispatch("getUser");
     },
   };
 </script>
@@ -48,9 +49,9 @@
     text-decoration: none;
     color: #fff;
   }
-  p {
+  /* p {
     word-break: break-all;
-  }
+  } */
   /* Form style */
 
   .form-group input {
@@ -155,5 +156,15 @@
   }
   /* Stub image */
   .profile_image {
+  }
+  .loading {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loading img {
+    width: 50px;
   }
 </style>

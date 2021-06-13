@@ -1,8 +1,15 @@
 <template>
   <div class="dropdown-wrapper">
     <div class="dropdown">
-      <router-link class="item" :to="'/profile/' + username" @click="navigate"
+      <router-link
+        v-if="isHomepage"
+        class="item"
+        :to="'/profile/' + username + '/posts'"
+        @click="navigate"
         ><i class="fa fa-user"></i>See your profile
+      </router-link>
+      <router-link v-else class="item" to="/homepage" @click="navigate"
+        ><i class="fa fa-home"></i>Home
       </router-link>
       <div class="item" @click="openEdit">
         <i class="fas fa-pen"></i>
@@ -34,6 +41,9 @@
       ...mapState(["user"]),
       username() {
         return this.user.username;
+      },
+      isHomepage() {
+        return this.$route.fullPath === "/homepage" ? true : false;
       },
     },
   };

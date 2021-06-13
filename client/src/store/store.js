@@ -9,11 +9,15 @@ const store = createStore({
   state: {
     isAuthenticated: false,
     loading: true,
+    profileLoading: true,
     user: null,
     targetUser: null,
+    users: [],
     token: localStorage.getItem("token"),
     isEdit: false,
     openMenu: false,
+    openSearch: false,
+    errorMsg: null,
   },
   mutations: {
     isAuth(state) {
@@ -34,11 +38,23 @@ const store = createStore({
     setTargetUser(state, user) {
       state.targetUser = user;
     },
+    setUsers(state, users) {
+      state.users = users;
+    },
     setIsEdit(state, value) {
       state.isEdit = value;
     },
     setOpenMenu(state, value) {
       state.openMenu = value;
+    },
+    setOpenSearch(state, value) {
+      state.openSearch = value;
+    },
+    setErrorMsg(state, msg) {
+      state.errorMsg = msg;
+    },
+    setProfileLoading(state, value) {
+      state.profileLoading = value;
     },
   },
   actions: {
@@ -50,14 +66,7 @@ const store = createStore({
       }
 
       try {
-        const res = await axios.get("/api/auth/", {
-          onDownloadProgress: (event) => {
-            let percent = Math.round((event.loaded / event.total) * 100);
-            console.log(percent);
-            console.log(event.total);
-            console.log(event.loaded);
-          },
-        });
+        const res = await axios.get("/api/auth/", {});
         commit("setUser", res.data.user);
         commit("isAuth");
         commit("isNotLoading");
@@ -66,19 +75,49 @@ const store = createStore({
       }
     },
     // @des: Load Target User
-    async getTargetUser({ commit }, id) {
+    async getTargetUser({ commit }, username) {
       // If there's a token, then set the token to header
       if (localStorage.token) {
         setAuthToken(localStorage.token);
       }
-      console.log(id);
 
       try {
-        const res = await axios.get(`/api/auth/${id}`, {});
+        const res = await axios.get(`/api/auth/${username}`);
         commit("setTargetUser", res.data.user);
-        console.log("Target user:", this.state.targetUser);
+        commit("setProfileLoading", false);
+        console.log(this.state.profileLoading);
+        console.log(this.state.targetUser);
       } catch (error) {
         console.error(error.response);
+      }
+    },
+    // @des: Load Searched User
+    async getSearchedUsers({ commit }, query) {
+      // If there's a token, then set the token to header
+      if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
+
+      const config = {
+        header: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      try {
+        const res = await axios.post(`/api/users`, { query }, config);
+        console.log(res.data.users);
+        if (res.data.users.length === 0) {
+          commit("setUsers", []);
+          console.log("user is 0: " + res.data.users);
+          commit("setErrorMsg", "search any user");
+        } else {
+          commit("setErrorMsg", null);
+          commit("setUsers", res.data.users);
+        }
+      } catch (error) {
+        // console.error(error.response);
+        commit("setErrorMsg", error.response.data.msg);
       }
     },
     // @desc: Testing if user can access to data

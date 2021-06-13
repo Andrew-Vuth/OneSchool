@@ -24,9 +24,11 @@ router.get("/", auth, async (req, res) => {
 // @route     GET api/auth
 // @desc      Get Target user
 // @access    Private
-router.get("/:id", auth, async (req, res) => {
+router.get("/:username", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-password");
+    const user = await User.findOne({ username: req.params.username }).select(
+      "-password"
+    );
     res.json({ user });
   } catch (error) {
     console.error(error);

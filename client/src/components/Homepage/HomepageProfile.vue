@@ -73,7 +73,7 @@
       },
       goToProfile(e) {
         if (!e.target.classList.contains("btn")) {
-          this.$router.push(`/profile/${this.user.username}`);
+          this.$router.push(`/profile/${this.user.username}/posts`);
         } else {
           return;
         }

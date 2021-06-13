@@ -6,7 +6,9 @@
       </div>
     </HomepageLayout>
   </div>
-  <div v-else>Loading...</div>
+  <div class="loading" v-else>
+    <img src="../../assets/loading_gif.gif" alt="loading" />
+  </div>
 </template>
 
 <script>
@@ -24,7 +26,7 @@
 <style scoped>
   .posts-container {
     background: var(--surface-l1);
-    height: 100vh;
+    height: 85vh;
     overflow-x: hidden;
     padding: 1em;
     margin: 0 1em;

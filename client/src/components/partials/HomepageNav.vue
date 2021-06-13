@@ -8,18 +8,21 @@
           </router-link>
         </div>
         <div class="col-md-6 col-sm-2 ">
-          <form class="form d-none d-md-block">
+          <form class="form d-none d-md-block" @submit.prevent="searchUser">
             <div class="form-group">
               <select>
                 <option value="people">People</option>
               </select>
               <input
+                name="search"
+                v-model="search"
                 class="form-control mr-sm-2"
-                type="search"
+                type="text"
                 placeholder="Search people here...."
               />
             </div>
           </form>
+          <ResultBar v-if="$store.state.openSearch" />
         </div>
 
         <div class="col-md-3 col-sm-12 profile-section">
@@ -44,6 +47,7 @@
 <script>
   import { mapState } from "vuex";
   import DropMenu from "./DropMenu";
+  import ResultBar from "../Search/ResultBar.vue";
   export default {
     name: "HomepageNav",
     data() {
@@ -53,11 +57,13 @@
           this.$store.state.user.profileImage.includes("uploads/")
             ? "http://localhost:5000/"
             : "",
+        search: "",
       };
     },
 
     components: {
       DropMenu,
+      ResultBar,
     },
     computed: {
       ...mapState(["user"]),
@@ -73,10 +79,18 @@
       cancel() {
         this.$store.commit("setOpenMenu", false);
       },
-      clickOutside(e) {
-        if (e.target.classList.contains("dropdown-wrapper")) {
-          this.cancel();
-        }
+
+      searchUser() {
+        this.$store.commit("setOpenSearch", true);
+        this.$store.dispatch("getSearchedUsers", this.search);
+      },
+      closeSearch() {
+        this.$store.commit("setOpenSearch", false);
+      },
+    },
+    watch: {
+      search: function() {
+        this.searchUser();
       },
     },
   };

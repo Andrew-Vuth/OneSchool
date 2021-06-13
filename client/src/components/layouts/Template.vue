@@ -1,7 +1,9 @@
 <template>
-  <div style="position: relative; height: 100%;">
-    <HomepageNav />
-    <slot />
+  <div>
+    <div style="position: relative; height: 100%;">
+      <HomepageNav />
+      <slot />
+    </div>
     <transition name="slide-fade">
       <ProfileEdit v-if="$store.state.isEdit" />
     </transition>
@@ -17,6 +19,7 @@
       HomepageNav,
       ProfileEdit,
     },
+    created() {},
   };
 </script>
 
