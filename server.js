@@ -11,6 +11,7 @@ const registerRoute = require("./routes/register");
 const postRoute = require("./routes/post");
 const profileRoute = require("./routes/profile");
 const usersRoute = require("./routes/users");
+const friendsRoute = require("./routes/friends");
 
 // DB connection
 const connectDB = require("./config/db");
@@ -32,6 +33,7 @@ app.use("/api/register", registerRoute);
 app.use("/api/post", postRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/users", usersRoute);
+app.use("/api/friends", friendsRoute);
 
 const PORT = process.env.PORT || 5000;
 

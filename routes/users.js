@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 
 const User = require("../models/User");
 
-// @route     Post api/users/:query
+// @route     Post api/users/
 // @desc      Get searched users
 // @access    Private
 router.post("/", auth, async (req, res) => {
