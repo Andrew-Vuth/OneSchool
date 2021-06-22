@@ -18,6 +18,17 @@ const store = createStore({
     openMenu: false,
     openSearch: false,
     errorMsg: null,
+    //test
+    alerts: [
+      {
+        type: "unfollow",
+        text: "Do you want to unfollow this user?",
+      },
+      {
+        type: "searchError",
+        text: "No user is found!",
+      },
+    ],
   },
   mutations: {
     isAuth(state) {
@@ -198,6 +209,24 @@ const store = createStore({
           formData
         );
         commit("setUser", res.data.user);
+      } catch (error) {
+        console.error(error.response.data);
+      }
+    },
+
+    async followUser({ commit }, username) {
+      const config = {
+        header: {
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const res = await axios.post(
+          "/api/friends/following",
+          username,
+          config
+        );
+        commit("setUser", res.data.currentUser);
       } catch (error) {
         console.error(error.response.data);
       }

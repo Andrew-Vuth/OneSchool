@@ -15,7 +15,11 @@
           >
             Edit Profile
           </button>
-          <button v-else class="btn one-school-btn cta-btn">
+          <button v-else-if="isFollowing" class="btn ghost-btn cta-btn">
+            <i class="fa fa-unlink" style="margin-right: 0.2em"></i>
+            Unfollow
+          </button>
+          <button v-else class="btn one-school-btn cta-btn" @click="followUser">
             <i class="fa fa-plus" style="margin-right: 0.2em"></i>
             Follow
           </button>
@@ -55,7 +59,18 @@
         >
           Edit Profile
         </button>
-        <button v-else class="btn one-school-btn cta-btn cta-md-btn">
+        <button
+          v-else-if="isFollowing"
+          class="btn one-school-btn cta-btn cta-md-btn ghost-btn"
+        >
+          <i class="fa fa-unlink" style="margin-right: 0.2em"></i>
+          Unfollow
+        </button>
+        <button
+          v-else
+          class="btn one-school-btn cta-btn cta-md-btn"
+          @click="followUser"
+        >
           <i class="fa fa-plus" style="margin-right: 0.2em"></i>
           Follow
         </button>
@@ -82,10 +97,19 @@
       ownProfile() {
         return this.user.username == this.$route.params.username;
       },
+      isFollowing() {
+        return this.user.followings.includes(this.targetUser._id);
+      },
     },
     methods: {
       openEdit() {
         this.$store.commit("setIsEdit", true);
+      },
+      followUser() {
+        console.log(this.$route.params.username);
+        this.$store.dispatch("followUser", {
+          username: this.$route.params.username,
+        });
       },
     },
   };
@@ -115,6 +139,7 @@
     bottom: 10px;
     right: 5%;
   }
+
   .cta-btn:hover {
     background: #6e6e6e;
   }
@@ -126,6 +151,7 @@
   .one-school-btn.cta-btn:hover {
     background: var(--one-school-secondary);
   }
+
   .name {
     display: flex;
     flex-direction: column;

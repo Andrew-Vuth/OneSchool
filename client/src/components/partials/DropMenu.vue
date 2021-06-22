@@ -1,16 +1,16 @@
 <template>
   <div class="dropdown-wrapper">
     <div class="dropdown">
-      <router-link
-        v-if="isHomepage"
+      <a
+        v-if="!notOwnProfile"
         class="item"
-        :to="'/profile/' + username + '/posts'"
+        :href="'/profile/' + username + '/posts'"
         @click="navigate"
         ><i class="fa fa-user"></i>See your profile
-      </router-link>
-      <router-link v-else class="item" to="/homepage" @click="navigate"
+      </a>
+      <a v-else class="item" href="/homepage" @click="navigate"
         ><i class="fa fa-home"></i>Home
-      </router-link>
+      </a>
       <div class="item" @click="openEdit">
         <i class="fas fa-pen"></i>
         Edit your profile
@@ -44,6 +44,9 @@
       },
       isHomepage() {
         return this.$route.fullPath === "/homepage" ? true : false;
+      },
+      notOwnProfile() {
+        return this.$route.params.username === this.user.username;
       },
     },
   };

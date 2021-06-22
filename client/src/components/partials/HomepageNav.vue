@@ -8,7 +8,11 @@
           </router-link>
         </div>
         <div class="col-md-6 col-sm-2 ">
-          <form class="form d-none d-md-block" @submit.prevent="searchUser">
+          <form
+            class="form d-none d-md-block"
+            @submit.prevent="searchUser"
+            autocomplete="off"
+          >
             <div class="form-group">
               <select>
                 <option value="people">People</option>

@@ -8,13 +8,15 @@ const User = require("../models/User");
 // @desc      Get searched users
 // @access    Private
 router.post("/following", auth, async (req, res) => {
-  const { targetUserId } = req.body;
+  const { username } = req.body;
 
   try {
-    let targetUser = await User.findById(targetUserId);
-
+    let targetUser = await User.findOne({ username });
     if (!targetUser)
       return res.status(404).json({ msg: "This user does not exist!" });
+
+    //Getting user ID
+    const targetUserId = targetUser._id;
 
     let currentUser = await User.findById(req.user.id);
     // Check if currentUser already follow that user

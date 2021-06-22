@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const auth = require("../middleware/auth");
+const User = require("../models/User");
 const Post = require("../models/Post");
 
 // @route     GET api/post
@@ -11,6 +12,27 @@ const Post = require("../models/Post");
 router.get("/", auth, async (req, res) => {
   try {
     const posts = await Post.find({ user: req.user.id });
+    res.json(posts);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Server Error!" });
+  }
+});
+router.get("/all", auth, async (req, res) => {
+
+  try {
+    const user = await User.findById(req.user.id);
+    // Get who the user follow
+    const followings = user.followings;
+    // The current user ID plus all his following users
+    const all = [...followings, req.user.id];
+
+    const posts = await Post.find({ 
+      user:
+        {
+          $in:all
+        }
+      });
     res.json(posts);
   } catch (error) {
     console.error(error.message);
