@@ -49,9 +49,12 @@
     text-decoration: none;
     color: #fff;
   }
-  /* p {
-    word-break: break-all;
-  } */
+  p,
+  div {
+    /* word-break: break-all; */
+    font-size: 14px;
+  }
+
   /* Form style */
 
   .form-group input {

@@ -61,7 +61,7 @@
   .result-container {
     border-radius: 10px;
     background: var(--surface-l1);
-    width: 650px;
+    width: 45vw;
     max-width: 100%;
     height: 400px;
   }
@@ -85,5 +85,10 @@
   .user img {
     width: 50px;
     border-radius: 50%;
+  }
+  .error {
+    font-size: 14px;
+    text-transform: capitalize;
+    padding: 1em;
   }
 </style>

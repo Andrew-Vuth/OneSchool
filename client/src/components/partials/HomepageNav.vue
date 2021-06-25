@@ -8,25 +8,7 @@
           </router-link>
         </div>
         <div class="col-md-6 col-sm-2 ">
-          <form
-            class="form d-none d-md-block"
-            @submit.prevent="searchUser"
-            autocomplete="off"
-          >
-            <div class="form-group">
-              <select>
-                <option value="people">People</option>
-              </select>
-              <input
-                name="search"
-                v-model="search"
-                class="form-control mr-sm-2"
-                type="text"
-                placeholder="Search people here...."
-              />
-            </div>
-          </form>
-          <ResultBar v-if="$store.state.openSearch" />
+          <SearchForm class="d-none d-md-block" />
         </div>
 
         <div class="col-md-3 col-sm-12 profile-section">
@@ -51,7 +33,7 @@
 <script>
   import { mapState } from "vuex";
   import DropMenu from "./DropMenu";
-  import ResultBar from "../Search/ResultBar.vue";
+  import SearchForm from "../Search/SearchForm.vue";
   export default {
     name: "HomepageNav",
     data() {
@@ -61,13 +43,12 @@
           this.$store.state.user.profileImage.includes("uploads/")
             ? "http://localhost:5000/"
             : "",
-        search: "",
       };
     },
 
     components: {
       DropMenu,
-      ResultBar,
+      SearchForm,
     },
     computed: {
       ...mapState(["user"]),
@@ -77,24 +58,10 @@
     },
     methods: {
       openMenu() {
-        console.log(this.$store.state.openMenu);
         this.$store.commit("setOpenMenu", !this.$store.state.openMenu);
       },
       cancel() {
         this.$store.commit("setOpenMenu", false);
-      },
-
-      searchUser() {
-        this.$store.commit("setOpenSearch", true);
-        this.$store.dispatch("getSearchedUsers", this.search);
-      },
-      closeSearch() {
-        this.$store.commit("setOpenSearch", false);
-      },
-    },
-    watch: {
-      search: function() {
-        this.searchUser();
       },
     },
   };
@@ -109,37 +76,6 @@
   }
   .nav-wrapper img {
     width: 10vmin;
-  }
-  .form-group {
-    display: flex;
-    margin: 0;
-  }
-  .form-group select {
-    background: var(--one-school-primary);
-    color: #fff;
-    border-radius: 10px 0 0 10px;
-    border: 0;
-    outline: 0;
-    padding-left: 10px;
-    margin-left: 10px;
-  }
-  .form-group input {
-    border-radius: 0 10px 10px 0;
-    padding: 1em;
-    outline: 0;
-    border: 0;
-    background-color: var(--surface-l2);
-  }
-  .form-group input:focus,
-  .form-group input::placeholder {
-    color: #fff;
-  }
-  .form-group input::placeholder {
-    opacity: 0.5;
-  }
-  .form-group input,
-  .form-group select {
-    font-size: 14px;
   }
 
   .profile-cta {

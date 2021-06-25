@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const multer = require("multer");
+const moment = require("moment");
+
 const auth = require("../middleware/auth");
 const User = require("../models/User");
 const Post = require("../models/Post");
@@ -19,7 +22,6 @@ router.get("/", auth, async (req, res) => {
   }
 });
 router.get("/all", auth, async (req, res) => {
-
   try {
     const user = await User.findById(req.user.id);
     // Get who the user follow
@@ -27,12 +29,11 @@ router.get("/all", auth, async (req, res) => {
     // The current user ID plus all his following users
     const all = [...followings, req.user.id];
 
-    const posts = await Post.find({ 
-      user:
-        {
-          $in:all
-        }
-      });
+    const posts = await Post.find({
+      user: {
+        $in: all,
+      },
+    });
     res.json(posts);
   } catch (error) {
     console.error(error.message);
@@ -44,12 +45,30 @@ router.get("/all", auth, async (req, res) => {
 // @desc      Posting a post
 // @access    Private
 
-router.post("/", auth, async (req, res) => {
-  const { post_text, post_image } = req.body;
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/posts");
+  },
+  filename: function (req, file, cb) {
+    cb(null, moment(new Date()).format("YYYY-MM-DD") + "-" + file.originalname);
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+const upload = multer({ storage, fileFilter });
+
+router.post("/", auth, upload.single("post_image"), async (req, res) => {
+  const { post_text } = req.body;
+  const post_image = req.file ? req.file.path : null;
   try {
     const newPost = new Post({ post_text, post_image, user: req.user.id });
     await newPost.save();
-    res.json(newPost);
+    res.json({ newPost });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ msg: "Server Error!" });

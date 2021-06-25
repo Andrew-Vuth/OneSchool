@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container-label">
-      <p>
+      <h6>
         Your Community
-      </p>
+      </h6>
       <i class="fas fa-plus-circle"></i>
     </div>
     <div class="communities"></div>
@@ -24,7 +24,7 @@
     border-radius: 10px 10px 0 0;
     background: var(--surface-l3);
   }
-  .container-label p {
+  .container-label h6 {
     margin: 0;
   }
 

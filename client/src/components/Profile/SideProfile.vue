@@ -167,9 +167,7 @@
   .info .col-md-12 {
     opacity: 0.5;
   }
-  .info .col-6 {
-    /* padding-right: 0; */
-  }
+
   .info .col-md-12:first-child {
     opacity: 1;
   }
@@ -178,6 +176,7 @@
     .sideProfile-wrapper {
       padding: 15px;
       font-size: 12px;
+      margin-bottom: 1rem;
     }
     .sideProfile-wrapper p {
       font-size: 12px;

@@ -12,10 +12,8 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  likedBy:[[{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]],
-  like:{
-    type: Number,
-  },
+  likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   date: {
     type: Date,
     default: Date.now,

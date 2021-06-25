@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container-label">
-      <p>
+      <h6>
         Direct Message
-      </p>
+      </h6>
       <button>
         <img src="../../assets/laugh.png" />
       </button>
@@ -25,7 +25,7 @@
     border-radius: 10px 10px 0 0;
     background: var(--surface-l3);
   }
-  .container-label p {
+  .container-label h6 {
     margin: 0;
   }
   .container-label button {

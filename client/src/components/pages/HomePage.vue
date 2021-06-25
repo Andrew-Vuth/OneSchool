@@ -3,6 +3,7 @@
     <HomepageLayout>
       <div class="posts-container">
         <PostForm />
+        <Post />
       </div>
     </HomepageLayout>
   </div>
@@ -14,9 +15,10 @@
 <script>
   import HomepageLayout from "../layouts/HomepageLayout";
   import PostForm from "../Homepage/PostForm";
+  import Post from "../Post/Post.vue";
   export default {
     name: "HomePage",
-    components: { HomepageLayout, PostForm },
+    components: { HomepageLayout, PostForm, Post },
     created() {
       this.$store.dispatch("getUser");
     },

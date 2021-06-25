@@ -4,6 +4,7 @@ import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 import HomePage from "../components/pages/HomePage";
 import Profile from "../components/pages/Profile";
+import Search from "../components/pages/Search";
 
 import Posts from "../components/Profile/Posts";
 import Followers from "../components/Profile/Followers";
@@ -34,6 +35,15 @@ const routes = [
     name: "Homepage",
     path: "/homepage",
     component: HomePage,
+    meta: {
+      requireAuth: true,
+    },
+    // beforeEnter: [checkAuth],
+  },
+  {
+    name: "Search",
+    path: "/search",
+    component: Search,
     meta: {
       requireAuth: true,
     },
