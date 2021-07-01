@@ -1,5 +1,5 @@
 <template>
-  <router-view style="height: 100%" />
+  <router-view />
 </template>
 
 <script>
@@ -19,6 +19,7 @@
   :root {
     --background-color: #17181a;
     --one-school-primary: #03dac5;
+    --one-school-primary-opacity: #03dac555;
     --one-school-secondary: #627d98;
     --one-school-danger: #cf6679;
     --surface-l1: #20252a;
@@ -136,12 +137,24 @@
     transform: translateY(-20px);
     opacity: 0;
   }
+  .slide-fade-right-enter-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .slide-fade-right-leave-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .slide-fade-right-enter-from,
+  .slide-fade-right-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+  }
   @media screen and (min-width: 867px) {
     /* custom scrollbar */
     ::-webkit-scrollbar {
-      width: 18px;
+      width: 15px;
     }
-
     ::-webkit-scrollbar-track {
       background-color: transparent;
     }

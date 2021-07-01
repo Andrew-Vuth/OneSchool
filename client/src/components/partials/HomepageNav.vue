@@ -79,8 +79,8 @@
   }
 
   .profile-cta {
-    background: var(--one-school-primary);
-
+    background: var(--one-school-primary-opacity);
+    color: var(--one-school-primary);
     border-radius: 10px;
     padding: 0.2em;
     display: flex;
@@ -89,6 +89,7 @@
     gap: 0.8em;
     width: fit-content;
     margin-left: auto;
+    cursor: pointer;
   }
   .profile-cta p {
     font-size: 12px;

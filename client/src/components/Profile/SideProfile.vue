@@ -15,7 +15,11 @@
           >
             Edit Profile
           </button>
-          <button v-else-if="isFollowing" class="btn ghost-btn cta-btn">
+          <button
+            v-else-if="isFollowing"
+            class="btn ghost-btn cta-btn"
+            @click="unfollow"
+          >
             <i class="fa fa-unlink" style="margin-right: 0.2em"></i>
             Unfollow
           </button>
@@ -106,8 +110,12 @@
         this.$store.commit("setIsEdit", true);
       },
       followUser() {
-        console.log(this.$route.params.username);
         this.$store.dispatch("followUser", {
+          username: this.$route.params.username,
+        });
+      },
+      unfollow() {
+        this.$store.dispatch("unfollowUser", {
           username: this.$route.params.username,
         });
       },

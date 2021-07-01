@@ -121,6 +121,8 @@
     padding: 0;
   }
   .bio {
+    word-wrap: break-word;
+    word-break: break-word;
     font-size: 13px;
   }
   .bio p {

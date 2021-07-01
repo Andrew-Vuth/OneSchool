@@ -3,6 +3,7 @@ const router = express.Router();
 
 const multer = require("multer");
 const moment = require("moment");
+const moment_tz = require("moment-timezone");
 
 const auth = require("../middleware/auth");
 const User = require("../models/User");
@@ -21,6 +22,9 @@ router.get("/", auth, async (req, res) => {
     res.status(500).json({ msg: "Server Error!" });
   }
 });
+// @route     GET api/post/all
+// @desc      Getting all posts
+// @access    Private
 router.get("/all", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -33,8 +37,11 @@ router.get("/all", auth, async (req, res) => {
       user: {
         $in: all,
       },
-    });
-    res.json(posts);
+    })
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .exec();
+    res.json({ posts });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ msg: "Server Error!" });
@@ -65,8 +72,18 @@ const upload = multer({ storage, fileFilter });
 router.post("/", auth, upload.single("post_image"), async (req, res) => {
   const { post_text } = req.body;
   const post_image = req.file ? req.file.path : null;
+  const dateKhmer = moment_tz
+    .tz(Date.now(), "Asia/Bangkok")
+    .format()
+    .toString();
+
   try {
-    const newPost = new Post({ post_text, post_image, user: req.user.id });
+    const newPost = new Post({
+      post_text,
+      post_image,
+      date_created: dateKhmer,
+      user: req.user.id,
+    });
     await newPost.save();
     res.json({ newPost });
   } catch (error) {

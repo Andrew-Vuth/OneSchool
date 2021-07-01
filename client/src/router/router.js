@@ -12,12 +12,9 @@ import Followings from "../components/Profile/Followings";
 
 import store from "../store/store";
 
-const fetchUser = () => {
-  store.commit("isLoading");
-
-  // store.dispatch("getTargetUser", to.params.username);
-  // console.log(store.state.targetUser);
-};
+// const fetchPosts = () => {
+//   store.dispatch("getAllPosts");
+// };
 
 const routes = [
   {
@@ -38,7 +35,7 @@ const routes = [
     meta: {
       requireAuth: true,
     },
-    // beforeEnter: [checkAuth],
+    // beforeEnter: [fetchPosts],
   },
   {
     name: "Search",
@@ -73,7 +70,6 @@ const routes = [
         component: Followings,
       },
     ],
-    beforeEnter: fetchUser,
   },
   {
     path: "/:pathMatch(.*)",

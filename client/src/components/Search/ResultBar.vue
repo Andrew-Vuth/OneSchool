@@ -59,6 +59,7 @@
     background: #00000058;
   }
   .result-container {
+    overflow: scroll;
     border-radius: 10px;
     background: var(--surface-l1);
     width: 45vw;

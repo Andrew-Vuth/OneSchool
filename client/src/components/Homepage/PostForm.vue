@@ -8,6 +8,7 @@
           rows="10"
           class="from-control"
           placeholder="Share your thoughts, needs, inspiration here...."
+          v-model="post_text"
         ></textarea>
       </div>
       <div class="form-group">
@@ -25,7 +26,7 @@
               <div class="upload-btn-container">
                 <input
                   type="file"
-                  name="profileImage"
+                  name="post_image"
                   class="uploadBtn"
                   accept="image/*"
                   @change="onFileSelected"
@@ -34,7 +35,12 @@
                 <img src="../../assets/image-gallery.png" alt="image" />
                 <input type="button" value="Upload" class="fakeUpload" />
               </div>
-              <input class="btn post-btn" type="submit" value="Post" />
+              <input
+                class="btn post-btn"
+                type="submit"
+                value="Post"
+                :disabled="!canPost"
+              />
             </div>
           </div>
         </div>
@@ -44,21 +50,52 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
     data() {
       return {
         imageText: "",
+        post_image: null,
+        post_text: "",
         hasImage: false,
       };
     },
     methods: {
       onFileSelected(e) {
+        const file = e.target.files[0];
         this.hasImage = true;
-        this.imageText = e.target.files[0].name;
+        this.post_image = file;
+        this.imageText = file.name;
       },
       clearImage() {
         this.hasImage = false;
         this.imageText = "";
+      },
+      async onPost() {
+        this.$store.commit("setPosting", true);
+
+        const postFields = new FormData();
+        const { post_text, post_image } = this;
+
+        if (post_text) postFields.append("post_text", post_text);
+        if (post_image) postFields.append("post_image", post_image);
+
+        // @des: Add Post
+        try {
+          await axios.post("/api/post/", postFields);
+          this.$store.dispatch("getAllPosts");
+        } catch (error) {
+          console.error(error);
+        }
+        this.imageText = "";
+        this.post_image = null;
+        this.post_text = "";
+        this.hasImage = false;
+      },
+    },
+    computed: {
+      canPost() {
+        return this.post_text !== "" || this.post_image !== null;
       },
     },
   };
@@ -95,6 +132,11 @@
   .post-btn:hover {
     background: #627d988d;
   }
+  .post-btn:disabled {
+    cursor: auto;
+    pointer-events: none;
+  }
+
   .clearBtn {
     background: transparent;
     border-radius: 50%;

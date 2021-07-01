@@ -9,8 +9,12 @@ const store = createStore({
   state: {
     isAuthenticated: false,
     loading: true,
+    postLoading: true,
     profileLoading: true,
+    posting: false,
     user: null,
+    userPosts: [],
+    allPosts: [],
     targetUser: null,
     users: [],
     token: localStorage.getItem("token"),
@@ -21,11 +25,11 @@ const store = createStore({
     //test
     alerts: [
       {
-        type: "unfollow",
+        type: "UNFOLLOW",
         text: "Do you want to unfollow this user?",
       },
       {
-        type: "searchError",
+        type: "SEARCH_ERROR",
         text: "No user is found!",
       },
     ],
@@ -43,6 +47,12 @@ const store = createStore({
     isNotLoading(state) {
       state.loading = false;
     },
+    setPostLoading(state, value) {
+      state.postLoading = value;
+    },
+    setPosting(state, value) {
+      state.posting = value;
+    },
     setUser(state, user) {
       state.user = user;
     },
@@ -51,6 +61,15 @@ const store = createStore({
     },
     setUsers(state, users) {
       state.users = users;
+    },
+    setAllPosts(state, posts) {
+      state.allPosts = posts;
+    },
+    setUserPosts(state, posts) {
+      state.userPosts = posts;
+    },
+    addPost(state, post) {
+      state.allPosts.unshift(post);
     },
     setIsEdit(state, value) {
       state.isEdit = value;
@@ -80,10 +99,12 @@ const store = createStore({
         const res = await axios.get("/api/auth/", {});
         commit("setUser", res.data.user);
         commit("isAuth");
-        commit("isNotLoading");
       } catch (error) {
         console.error(error.response);
       }
+
+      this.dispatch("getAllPosts");
+      commit("isNotLoading");
     },
     // @des: Load Target User
     async getTargetUser({ commit }, username) {
@@ -214,6 +235,7 @@ const store = createStore({
       }
     },
 
+    // @des: Follow User
     async followUser({ commit }, username) {
       const config = {
         header: {
@@ -227,6 +249,31 @@ const store = createStore({
           config
         );
         commit("setUser", res.data.currentUser);
+      } catch (error) {
+        console.error(error.response.data);
+      }
+    },
+    // @des: Unfollow User
+    async unfollowUser({ commit }, username) {
+      const config = {
+        header: {
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const res = await axios.put("/api/friends/unfollow", username, config);
+        commit("setUser", res.data.currentUser);
+      } catch (error) {
+        console.error(error.response.data);
+      }
+    },
+
+    // @des: Get All Posts
+    async getAllPosts({ commit }) {
+      try {
+        const res = await axios.get("/api/post/all");
+        commit("setAllPosts", res.data.posts);
+        commit("setPostLoading", false);
       } catch (error) {
         console.error(error.response.data);
       }
