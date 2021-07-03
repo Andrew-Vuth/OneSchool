@@ -65,6 +65,7 @@
         </button>
         <button
           v-else-if="isFollowing"
+          @click="unfollow"
           class="btn one-school-btn cta-btn cta-md-btn ghost-btn"
         >
           <i class="fa fa-unlink" style="margin-right: 0.2em"></i>
@@ -89,35 +90,53 @@
     data() {
       return {
         src:
-          this.$store.state.user.profileImage.includes("uploads\\") ||
-          this.$store.state.user.profileImage.includes("uploads/")
+          this.$store.state.targetUser.profileImage.includes("uploads\\") ||
+          this.$store.state.targetUser.profileImage.includes("uploads/")
             ? "http://localhost:5000/"
             : "",
+        isFollowing: false,
       };
+    },
+    created() {
+      if (this.user.followings.includes(this.targetUser._id))
+        this.isFollowing = true;
     },
 
     computed: {
-      ...mapState(["targetUser", "user"]),
+      ...mapState(["targetUser", "user", "alerts"]),
       ownProfile() {
         return this.user.username == this.$route.params.username;
       },
-      isFollowing() {
-        return this.user.followings.includes(this.targetUser._id);
-      },
+      // isFollowing() {
+      //   return this.user.followings.includes(this.targetUser._id);
+      // },
     },
     methods: {
       openEdit() {
         this.$store.commit("setIsEdit", true);
       },
       followUser() {
+        this.isFollowing = true;
         this.$store.dispatch("followUser", {
           username: this.$route.params.username,
         });
       },
       unfollow() {
-        this.$store.dispatch("unfollowUser", {
-          username: this.$route.params.username,
+        this.alerts.forEach((alert) => {
+          if (alert.type === "UNFOLLOW") alert.isShown = true;
         });
+      },
+    },
+    watch: {
+      alerts: {
+        handler() {
+          console.log("sth changed");
+          this.alerts.forEach((alert) => {
+            if (alert.type === "UNFOLLOW" && alert.isShown === false)
+              this.isFollowing = false;
+          });
+        },
+        deep: true,
       },
     },
   };

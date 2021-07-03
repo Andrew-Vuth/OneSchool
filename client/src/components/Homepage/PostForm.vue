@@ -104,7 +104,7 @@
 <style scoped>
   .postForm-wrapper {
     background: var(--surface-l2);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 1em 1.5em 0.5em 1.5em;
   }
   .form-group {

@@ -21,7 +21,7 @@
     --one-school-primary: #03dac5;
     --one-school-primary-opacity: #03dac555;
     --one-school-secondary: #627d98;
-    --one-school-danger: #cf6679;
+    --one-school-danger: #e74f6b;
     --surface-l1: #20252a;
     --surface-l2: #252c32;
     --surface-l3: #2a333b;
@@ -94,6 +94,13 @@
   .ghost-btn:hover {
     background: rgba(255, 255, 255, 0.1);
   }
+  .btn.danger {
+    color: #ffff;
+    background: var(--one-school-danger);
+  }
+  .btn.danger:hover {
+    background: #cf6679;
+  }
 
   /* Upload btn and fake btn */
   .form-group .uploadBtn {
@@ -150,26 +157,26 @@
     transform: translateX(20px);
     opacity: 0;
   }
-  @media screen and (min-width: 867px) {
-    /* custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 15px;
-    }
-    ::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
 
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--one-school-secondary);
-      border-radius: 20px;
-      border: 6px solid transparent;
-      background-clip: content-box;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background-color: #a8bbbf;
-    }
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 15px;
   }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--one-school-secondary);
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+  }
+
   /* Stub image */
   .profile_image {
   }

@@ -1,11 +1,13 @@
 <template>
   <div class="small-modal">
-    <img src="../../assets/loading_gif.gif" alt="loading" />Posting...
+    <img src="../../assets/loading_gif.gif" alt="loading" />{{ msg }}
   </div>
 </template>
 
 <script>
-  export default {};
+  export default {
+    props: ["msg"],
+  };
 </script>
 
 <style scoped>

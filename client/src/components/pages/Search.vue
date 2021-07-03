@@ -12,6 +12,9 @@
     components: {
       SearchForm,
     },
+    mounted() {
+      document.title = "Search";
+    },
   };
 </script>
 
@@ -59,7 +62,8 @@
     font-size: 11px;
   }
   .search .user img {
-    width: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
   .backLink {

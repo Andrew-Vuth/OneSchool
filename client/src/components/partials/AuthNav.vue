@@ -29,7 +29,7 @@
     text-transform: capitalize;
   }
   .navbar img {
-    width: 10vmin;
+    width: 15vmin;
   }
   .styledBtn {
     position: relative;

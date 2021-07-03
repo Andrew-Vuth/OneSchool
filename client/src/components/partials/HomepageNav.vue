@@ -75,7 +75,7 @@
     position: relative;
   }
   .nav-wrapper img {
-    width: 10vmin;
+    width: 15vmin;
   }
 
   .profile-cta {

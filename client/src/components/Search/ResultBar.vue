@@ -6,7 +6,15 @@
       <div v-else class="row" v-for="(user, i) in users" :key="i">
         <a class="user" :href="'/profile/' + user.username + '/posts'">
           <div class="userImage">
-            <img :src="src + user.profileImage" alt="user-profile" />
+            <img
+              :src="
+                (user.profileImage.includes('uploads\\') ||
+                user.profileImage.includes('uploads/')
+                  ? 'http://localhost:5000/'
+                  : '') + user.profileImage
+              "
+              alt="user-profile"
+            />
           </div>
           <div class="userInfo">
             <p>{{ user.name }}</p>
@@ -22,13 +30,7 @@
   import { mapState } from "vuex";
   export default {
     data() {
-      return {
-        src:
-          this.$store.state.user.profileImage.includes("uploads\\") ||
-          this.$store.state.user.profileImage.includes("uploads/")
-            ? "http://localhost:5000/"
-            : "",
-      };
+      return {};
     },
     computed: {
       ...mapState(["users", "errorMsg"]),
@@ -59,7 +61,7 @@
     background: #00000058;
   }
   .result-container {
-    overflow: scroll;
+    overflow: auto;
     border-radius: 10px;
     background: var(--surface-l1);
     width: 45vw;
@@ -85,6 +87,8 @@
   }
   .user img {
     width: 50px;
+    height: 50px;
+    object-fit: cover;
     border-radius: 50%;
   }
   .error {

@@ -27,6 +27,7 @@
   .profile-wrapper {
     padding: 0 4em;
   }
+
   @media screen and (max-width: 768px) {
     .profile-wrapper {
       padding: 15px;

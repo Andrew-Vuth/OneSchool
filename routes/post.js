@@ -9,23 +9,10 @@ const auth = require("../middleware/auth");
 const User = require("../models/User");
 const Post = require("../models/Post");
 
-// @route     GET api/post
-// @desc      Getting posts
-// @access    Private
-
-router.get("/", auth, async (req, res) => {
-  try {
-    const posts = await Post.find({ user: req.user.id });
-    res.json(posts);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ msg: "Server Error!" });
-  }
-});
 // @route     GET api/post/all
 // @desc      Getting all posts
 // @access    Private
-router.get("/all", auth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     // Get who the user follow
@@ -38,6 +25,22 @@ router.get("/all", auth, async (req, res) => {
         $in: all,
       },
     })
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .exec();
+    res.json({ posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Server Error!" });
+  }
+});
+// @route     GET api/post
+// @desc      Getting posts
+// @access    Private
+
+router.get("/:userId", auth, async (req, res) => {
+  try {
+    const posts = await Post.find({ user: req.params.userId })
       .populate("user")
       .sort({ createdAt: -1 })
       .exec();
@@ -141,6 +144,36 @@ router.delete("/:id", auth, async (req, res) => {
     post = await Post.findByIdAndDelete(req.params.id);
   } catch (error) {
     console.error(error.message);
+    res.status(500).json({ msg: "Server Error!" });
+  }
+});
+
+// @route     PUT api/post/:id/like
+// @desc      Like a post
+// @access    Private
+router.put("/:id/like", auth, async (req, res) => {
+  try {
+    let post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(400).json({ msg: "Post not found!" });
+
+    if (post.likedBy.includes(req.user.id)) {
+      console.log("already like");
+      post = await Post.findByIdAndUpdate(
+        req.params.id,
+        { $pull: { likedBy: req.user.id } },
+        { new: true }
+      );
+    } else {
+      post = await Post.findByIdAndUpdate(
+        req.params.id,
+        { $push: { likedBy: req.user.id } },
+        { new: true }
+      );
+    }
+    res.json({ post });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: "Server Error!" });
   }
 });
