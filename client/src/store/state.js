@@ -4,6 +4,7 @@ export const state = {
   postLoading: true,
   profileLoading: true,
   posting: false,
+  commenting: false,
   user: null,
   userPosts: [],
   allPosts: [],

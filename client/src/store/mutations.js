@@ -17,6 +17,9 @@ export const mutations = {
   setPosting(state, value) {
     state.posting = value;
   },
+  setCommenting(state, value) {
+    state.commenting = value;
+  },
   setUser(state, user) {
     state.user = user;
   },

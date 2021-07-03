@@ -197,4 +197,12 @@ export const actions = {
     }
     commit("setPostLoading", false);
   },
+  // // @des: Get Comments
+  // async getComments({commit}, postId){
+  //   try {
+  //     const res = await
+  //   } catch (error) {
+
+  //   }
+  // }
 };

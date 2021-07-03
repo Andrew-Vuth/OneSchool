@@ -23,7 +23,7 @@
 
 <script>
   import HomepageLayout from "../layouts/HomepageLayout";
-  import PostForm from "../Homepage/PostForm";
+  import PostForm from "../Post/PostForm";
   import PostItem from "../Post/PostItem.vue";
   import { mapState } from "vuex";
   export default {

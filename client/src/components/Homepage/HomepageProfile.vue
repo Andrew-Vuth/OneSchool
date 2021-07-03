@@ -22,8 +22,8 @@
       </div>
     </div>
     <div class="row bio">
-      <div class="col-2">Bio:</div>
-      <div class="col-10">
+      <div class="col-md-2 ">Bio:</div>
+      <div class="col-md-10 ">
         <p>
           {{ user.bio }}
         </p>
@@ -123,13 +123,13 @@
   .bio {
     word-wrap: break-word;
     word-break: break-word;
-    font-size: 13px;
   }
   .bio p {
     opacity: 50%;
+    font-size: 12.5px;
   }
   .bio .col-10 {
-    padding-left: 0;
+    /* padding-left: 0; */
   }
   .btn {
     font-size: 12px;

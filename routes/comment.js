@@ -4,6 +4,7 @@ const multer = require("multer");
 const moment = require("moment");
 const moment_tz = require("moment-timezone");
 const Comment = require("../models/Comment");
+const Post = require("../models/Post");
 
 const auth = require("../middleware/auth");
 
@@ -12,7 +13,7 @@ const auth = require("../middleware/auth");
 // @access    Private
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads/posts");
+    cb(null, "./uploads/comments");
   },
   filename: function (req, file, cb) {
     cb(null, moment(new Date()).format("YYYY-MM-DD") + "-" + file.originalname);
@@ -44,6 +45,13 @@ router.post("/", auth, upload.single("comment_image"), async (req, res) => {
       user: req.user.id,
     });
     await newComment.save();
+
+    const targetPost = await Post.findByIdAndUpdate(
+      post,
+      { $push: { comments: newComment._id } },
+      { new: true }
+    );
+
     res.json({ newComment });
   } catch (error) {
     console.error(error.message);

@@ -9,13 +9,13 @@
           class="from-control"
           placeholder="Share your thoughts, needs, inspiration here...."
           v-model="post_text"
+          @keyup.enter="onPost"
         ></textarea>
       </div>
       <div class="form-group">
         <div class="row">
           <div class="col-sm-4 d-flex align-items-center">
             Attachment:
-            <!-- <input type="text" disabled v-model="imageText" class="imageText" /> -->
             <span class="imageText">{{ imageText }}</span>
             <button class="clearBtn" @click="clearImage" v-if="hasImage">
               <i class="fas fa-trash-alt"></i>
