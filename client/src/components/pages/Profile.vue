@@ -29,6 +29,7 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
   import ProfileLayout from "../layouts/ProfileLayout";
   export default {
     components: {
@@ -49,6 +50,18 @@
           }
         });
         e.target.classList.add("active");
+      },
+    },
+    computed: {
+      ...mapState(["userPosts"]),
+    },
+    watch: {
+      userPosts: {
+        handler() {
+          // this.$store.commit("setPosting", false);
+          this.$store.commit("setCommenting", false);
+        },
+        deep: true,
       },
     },
   };

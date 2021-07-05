@@ -41,6 +41,7 @@
       allPosts: {
         handler() {
           this.$store.commit("setPosting", false);
+          this.$store.commit("setCommenting", false);
         },
         deep: true,
       },

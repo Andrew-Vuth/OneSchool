@@ -89,8 +89,11 @@
   }
   .user-profile {
     width: 30px;
+    height: 30px;
     object-fit: cover;
     border-radius: 50%;
+    /* padding: 3px;
+    border: 2px var(--one-school-primary) solid; */
     margin-right: 0.5em;
   }
   .user-info p:nth-child(2),

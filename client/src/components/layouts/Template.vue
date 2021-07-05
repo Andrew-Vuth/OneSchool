@@ -13,6 +13,9 @@
     <transition name="slide-fade-right">
       <SmallModal v-if="$store.state.posting" msg="Posting..." />
     </transition>
+    <transition name="slide-fade-right">
+      <SmallModal v-if="$store.state.commenting" msg="Commenting..." />
+    </transition>
   </div>
 </template>
 

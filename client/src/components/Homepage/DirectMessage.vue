@@ -1,19 +1,49 @@
 <template>
   <div>
     <div class="container-label">
-      <h6>
-        Direct Message
-      </h6>
+      <h6>Direct Message</h6>
       <button>
         <img src="../../assets/laugh.png" />
       </button>
     </div>
-    <div class="friends"></div>
+    <div class="container-fluid followings">
+      <div
+        class="row"
+        v-for="(following, i) in user.followings.slice(0, 3)"
+        :key="i"
+      >
+        <a
+          class="following"
+          :href="'/profile/' + following.username + '/posts'"
+        >
+          <div class="userImage">
+            <img
+              :src="
+                (following.profileImage.includes('uploads\\') ||
+                following.profileImage.includes('uploads/')
+                  ? 'http://localhost:5000/'
+                  : '') + following.profileImage
+              "
+              alt="user-profile"
+            />
+            <span>{{ following.name }}</span>
+          </div>
+        </a>
+      </div>
+      <a href="#">
+        <div class="float-right">See All</div>
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {};
+  import { mapState } from "vuex";
+  export default {
+    computed: {
+      ...mapState(["user"]),
+    },
+  };
 </script>
 
 <style scoped>
@@ -31,5 +61,17 @@
   .container-label button {
     border: 0;
     background: transparent;
+  }
+  .following {
+    width: 100%;
+    padding: 0.75em 1em;
+  }
+  .following:hover {
+    background: var(--surface-l2);
+  }
+  .userImage img {
+    margin-right: 1.5em;
+    border-radius: 50%;
+    width: 40px;
   }
 </style>

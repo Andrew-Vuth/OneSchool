@@ -3,9 +3,9 @@
     <div class="container-fluid">
       <div class="row align-items-center">
         <div class="col-md-3 d-none d-md-block">
-          <router-link to="/homepage">
+          <a href="/homepage">
             <img src="../../assets/OneSchool_Logo.png" alt="one_school_logo" />
-          </router-link>
+          </a>
         </div>
         <div class="col-md-6 col-sm-2 ">
           <SearchForm class="d-none d-md-block" />
@@ -17,8 +17,8 @@
               <img src="../../assets/search.png" alt="" />
             </a>
           </div>
-          <div @click="openMenu" style="z-index: 21">
-            <div class="profile-cta">
+          <div  style="z-index: 21">
+            <div class="profile-cta" @click="openMenu">
               <p>{{ firstName }}</p>
               <img :src="src + user.profileImage" alt="profile_iamge" />
             </div>

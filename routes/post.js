@@ -43,6 +43,7 @@ router.get("/:userId", auth, async (req, res) => {
   try {
     const posts = await Post.find({ user: req.params.userId })
       .populate("user")
+      .populate({ path: "comments", populate: { path: "user" } })
       .sort({ createdAt: -1 })
       .exec();
     res.json({ posts });

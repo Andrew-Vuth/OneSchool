@@ -5,7 +5,7 @@
       <PostItem v-for="post in userPosts || []" :key="post._id" :post="post" />
     </div>
     <div class="loading-post" v-else>
-      <!-- <img src="../../assets/loading_gif.gif" alt="loading" /> -->
+      <img src="../../assets/loading_gif.gif" alt="loading" />
     </div>
   </div>
 </template>

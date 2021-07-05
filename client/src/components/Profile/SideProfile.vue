@@ -98,8 +98,9 @@
       };
     },
     created() {
-      if (this.user.followings.includes(this.targetUser._id))
+      if (this.user.followings.some(following => following._id === this.targetUser._id))
         this.isFollowing = true;
+     
     },
 
     computed: {

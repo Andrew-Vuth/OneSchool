@@ -47,10 +47,8 @@ export const actions = {
 
     try {
       const res = await axios.post(`/api/users`, { query }, config);
-      console.log(res.data.users);
       if (res.data.users.length === 0) {
         commit("setUsers", []);
-        console.log("user is 0: " + res.data.users);
         commit("setErrorMsg", "search any user");
       } else {
         commit("setErrorMsg", null);
@@ -191,9 +189,9 @@ export const actions = {
     try {
       const res = await axios.get(`/api/post/${userId}`);
       commit("setUserPosts", res.data.posts);
-      console.log(this.state.userPosts);
+      commit("setPostLoading", false);
     } catch (error) {
-      console.error(error.response.data);
+      console.error(error.response);
     }
     commit("setPostLoading", false);
   },

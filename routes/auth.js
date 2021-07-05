@@ -14,7 +14,10 @@ const User = require("../models/User");
 // @access    Private
 router.get("/", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id)
+      .select("-password")
+      .populate("followers")
+      .populate("followings");
     res.json({ user });
   } catch (error) {
     console.error(error.messsage);
@@ -26,9 +29,10 @@ router.get("/", auth, async (req, res) => {
 // @access    Private
 router.get("/:username", auth, async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username }).select(
-      "-password"
-    );
+    const user = await User.findOne({ username: req.params.username })
+      .select("-password")
+      .populate("followers")
+      .populate("followings");
     res.json({ user });
   } catch (error) {
     console.error(error);

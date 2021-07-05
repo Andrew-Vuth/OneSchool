@@ -18,6 +18,7 @@
 <style>
   :root {
     --background-color: #17181a;
+    --one-school-alt: #bb86fc;
     --one-school-primary: #03dac5;
     --one-school-primary-opacity: #03dac555;
     --one-school-secondary: #627d98;

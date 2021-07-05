@@ -2,16 +2,20 @@
   <div class="post-wrapper">
     <div class="container-fluid post-container">
       <div class="row">
-        <div class="col-6 user-details">
-          <img
-            :src="src + post.user.profileImage"
-            alt="user-profile"
-            class="user-profile"
-          />
-          <div class="user-info">
-            <p>{{ post.user.name }}</p>
-            <p>@{{ post.user.username }}</p>
-          </div>
+        <div class="col-6 p-0">
+          <a :href="link_profile">
+            <div class="user-details">
+              <img
+                :src="src + post.user.profileImage"
+                alt="user-profile"
+                class="user-profile"
+              />
+              <div class="user-info">
+                <p>{{ post.user.name }}</p>
+                <p>@{{ post.user.username }}</p>
+              </div>
+            </div>
+          </a>
         </div>
         <div class="col-6 d-flex justify-content-end">
           <p class="dayPosted">
@@ -122,16 +126,25 @@
           </div>
         </div>
         <div class="col-6 d-flex justify-content-end">
-          <p class="like">{{ postLikes }} Likes</p>
+          <p class="like mr-2">{{ postLikes }} Likes</p>
+          <p class="comment" @click="showComments">
+            {{ postComments }} Comments
+          </p>
         </div>
       </div>
     </div>
-    <div v-if="isShowComment">
-      <CommentItem
-        v-for="comment in post.comments"
-        :key="comment._id"
-        :comment="comment"
-      />
+    <div v-if="isShowComment" style="position: relative">
+      <div class="comments">
+        <CommentItem
+          v-for="comment in comments"
+          :key="comment._id"
+          :comment="comment"
+        />
+        <div class="show-more" v-if="!showMore && comments.length > 0">
+          <p @click="showMoreComments">Show More</p>
+        </div>
+      </div>
+
       <CommentForm :postId="post._id" />
     </div>
   </div>
@@ -160,9 +173,12 @@
             ? "http://localhost:5000/"
             : "",
         src_post_image: "http://localhost:5000/",
+        link_profile: `/profile/${this.post.user.username}/posts`,
         postLikes: this.post.likedBy.length,
+        postComments: this.post.comments.length,
         isLiked: false,
         isShowComment: false,
+        showMore: false,
       };
     },
 
@@ -175,6 +191,11 @@
           .replace("a day ago", "1 day ago")
           .replace("a minute ago", "1 minute ago");
         return date;
+      },
+      comments() {
+        return this.showMore
+          ? this.post.comments
+          : this.post.comments.slice(0, 2);
       },
     },
     methods: {
@@ -191,9 +212,11 @@
         }
       },
       showComments() {
-        console.log(this.isShowComment);
+        if (!this.isShowComment) this.showMore = false;
         this.isShowComment = !this.isShowComment;
-        console.log(this.isShowComment);
+      },
+      showMoreComments() {
+        this.showMore = true;
       },
     },
     created() {
@@ -235,10 +258,12 @@
   }
 
   .user-profile {
+    object-fit: cover;
     width: 35px;
     height: 35px;
     object-fit: cover;
     border-radius: 50%;
+    /* border: 2px var(--one-school-primary) solid; */
     margin-right: 0.5em;
   }
   .post-text {
@@ -252,9 +277,13 @@
     width: 450px;
     max-width: 100%;
   }
-  .like {
+  .like,
+  .comment {
     font-size: 12px;
     opacity: 0.5;
+  }
+  .comment {
+    cursor: pointer;
   }
   .btn-container {
     display: flex;
@@ -291,5 +320,27 @@
   }
   .likeBtn.liked svg #shape-shadow {
     fill: #dce6eb;
+  }
+  .comment {
+    position: relative;
+  }
+  .comments::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 88px;
+    left: 25px;
+    width: 3px;
+    border-radius: 5px;
+    background: var(--surface-l4);
+  }
+  .show-more {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5em;
+  }
+  .show-more p {
+    cursor: pointer;
+    font-size: 11px;
   }
 </style>

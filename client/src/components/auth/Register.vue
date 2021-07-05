@@ -13,6 +13,8 @@
             type="text"
             class="form-control"
             placeholder="Input name"
+            required
+
           />
         </div>
         <div class="form-group">
@@ -23,6 +25,8 @@
             type="text"
             class="form-control"
             placeholder="Input email address"
+            required
+
           />
         </div>
         <div class="form-group-two">
@@ -54,6 +58,7 @@
             type="password"
             class="form-control"
             placeholder="Don't forget your password"
+            required
           />
         </div>
         <div class="form-group">
@@ -64,6 +69,7 @@
             type="password"
             class="form-control"
             placeholder="Don't forget your password"
+            required
           />
         </div>
         <div class="d-flex justify-content-end">

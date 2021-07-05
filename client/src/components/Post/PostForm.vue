@@ -98,6 +98,14 @@
         return this.post_text !== "" || this.post_image !== null;
       },
     },
+    watch: {
+      allPosts: {
+        handler() {
+          this.$store.commit("setPosting", false);
+        },
+        deep: true,
+      },
+    },
   };
 </script>
 

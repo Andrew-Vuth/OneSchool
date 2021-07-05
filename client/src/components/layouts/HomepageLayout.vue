@@ -41,7 +41,7 @@
   }
   .right-container {
     background: var(--surface-l1);
-    height: 250px;
+    height: 280px;
     max-height: 100%;
     border-radius: 10px;
     margin-bottom: 1em;
