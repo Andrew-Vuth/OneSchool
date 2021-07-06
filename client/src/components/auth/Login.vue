@@ -5,6 +5,10 @@
         <h3>
           Start Connecting
         </h3>
+        <ErrorMsg
+          v-if="$store.state.errorMsg"
+          :errorMsg="$store.state.errorMsg"
+        />
         <div class="form-group mt-lg-4 mt-sm-1">
           <label for="email">Email</label>
           <input
@@ -39,6 +43,7 @@
 <script>
   import AuthLayout from "../layouts/AuthLayout";
   import { mapState } from "vuex";
+  import ErrorMsg from "../partials/ErrorMsg.vue";
   export default {
     name: "Login",
     data() {
@@ -49,6 +54,7 @@
     },
     components: {
       AuthLayout,
+      ErrorMsg,
     },
     mounted() {
       document.title = "Login";

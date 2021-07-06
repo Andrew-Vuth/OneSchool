@@ -96,6 +96,10 @@ export const actions = {
       router.push("/homepage");
     } catch (error) {
       console.error(error.response.data);
+      commit("setErrorMsg", error.response.data.msg);
+      setTimeout(() => {
+        commit("setErrorMsg", null);
+      }, 5000);
     }
   },
 
@@ -119,6 +123,10 @@ export const actions = {
       router.push("/homepage");
     } catch (error) {
       console.error(error.response.data);
+      commit("setErrorMsg", error.response.data.msg);
+      setTimeout(() => {
+        commit("setErrorMsg", null);
+      }, 5000);
     }
   },
   logout({ commit }) {

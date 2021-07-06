@@ -5,6 +5,10 @@
         <h3>
           Create Connection
         </h3>
+        <ErrorMsg
+          v-if="$store.state.errorMsg"
+          :errorMsg="$store.state.errorMsg"
+        />
         <div class="form-group mt-4">
           <label for="username">Name</label>
           <input
@@ -14,7 +18,6 @@
             class="form-control"
             placeholder="Input name"
             required
-
           />
         </div>
         <div class="form-group">
@@ -26,7 +29,6 @@
             class="form-control"
             placeholder="Input email address"
             required
-
           />
         </div>
         <div class="form-group-two">
@@ -85,7 +87,7 @@
 </template>
 <script>
   import authLayout from "../layouts/AuthLayout";
-
+  import ErrorMsg from "../partials/ErrorMsg.vue";
   export default {
     name: "Register",
 
@@ -101,6 +103,7 @@
     },
     components: {
       authLayout,
+      ErrorMsg,
     },
     mounted() {
       document.title = "Register";
@@ -108,7 +111,15 @@
 
     methods: {
       async onSubmit() {
-        const { name, email, major, interests, password } = this;
+        const { name, email, major, interests, password, password2 } = this;
+
+        if (password !== password2) {
+          this.$store.commit("setErrorMsg", "Passwords must be matched!");
+          return setTimeout(() => {
+            this.$store.commit("setErrorMsg", null);
+          }, 5000);
+        }
+
         this.$store.dispatch("register", {
           name,
           email,
