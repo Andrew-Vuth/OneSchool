@@ -13,6 +13,8 @@ const commentRoute = require("./routes/comment");
 const profileRoute = require("./routes/profile");
 const usersRoute = require("./routes/users");
 const friendsRoute = require("./routes/friends");
+const conversationRoute = require("./routes/conversation");
+const messageRoute = require("./routes/message");
 
 // DB connection
 const connectDB = require("./config/db");
@@ -36,6 +38,8 @@ app.use("/api/comment", commentRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/friends", friendsRoute);
+app.use("/api/conversation", conversationRoute);
+app.use("/api/message", messageRoute);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () =>
