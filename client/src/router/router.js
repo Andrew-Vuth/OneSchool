@@ -5,6 +5,9 @@ import Register from "../components/auth/Register";
 import HomePage from "../components/pages/HomePage";
 import Profile from "../components/pages/Profile";
 import Search from "../components/pages/Search";
+import MathematicCommunity from "../components/Community/Mathematic-Community";
+import CivilEngineerCommunity from "../components/Community/Civil-Engineer-Community";
+import PhysicCommunity from "../components/Community/Physic-Community"
 
 import Posts from "../components/Profile/Posts";
 import Followers from "../components/Profile/Followers";
@@ -22,7 +25,21 @@ const routes = [
     path: "/",
     component: Login,
   },
-
+  {
+    name: "Mathematic Community",
+    path: "/Mathematic-Community",
+    component: MathematicCommunity,
+  },
+  {
+    name: "Civil Engineer Community",
+    path: "/Civil-Engineer-Community",
+    component: CivilEngineerCommunity,
+  },
+  {
+    name: "Physic Community",
+    path: "/Physic-Community",
+    component: PhysicCommunity,
+  },
   {
     name: "Register",
     path: "/register",

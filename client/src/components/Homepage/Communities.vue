@@ -4,9 +4,32 @@
       <h6>
         Your Community
       </h6>
-      <i class="fas fa-plus-circle"></i>
+      <i href="#" class="fas fa-plus-circle">
+      </i>
     </div>
-    <div class="communities"></div>
+    <div class="communities">
+      <div class="post-wrapper">
+        <div class="container-fluid post-container">
+          <div class="row d-flex flex-column">
+            <router-link to="/Mathematic-Community">Mathematic Community</router-link>
+          </div>
+        </div>
+      </div>
+      <div class="post-wrapper">
+        <div class="container-fluid post-container">
+          <div class="row d-flex flex-column">
+            <router-link to="/Civil-Engineer-Community">Civil Engineer Community</router-link>
+          </div>
+        </div>
+      </div>
+      <div class="post-wrapper">
+        <div class="container-fluid post-container">
+          <div class="row d-flex flex-column">
+            <router-link to="/Physic-Community">Physic Community</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,5 +55,19 @@
     cursor: pointer;
     color: var(--one-school-primary);
     font-size: 24px;
+  }
+  .post-container {
+    border-radius: 10px;
+    align-items: center;
+    margin-top: 1em;
+    background: var(--surface-l2);
+  }
+  
+  .post-container .row:not(:nth-child(2)) {
+    padding: 1em;
+    margin: 2px;
+  }
+  .post-container .row:nth-child(2) {
+    padding: 0 1em 1.25em 1em;
   }
 </style>
