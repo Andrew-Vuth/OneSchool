@@ -51,6 +51,33 @@ const io = require("socket.io")(server, {
     origins: ["oneschool.co:8080"],
   },
 });
-io.on("connection", () => {
-  console.log("connected boisss");
+
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+  console.log("Chat Connected");
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+  });
+  socket.on("sendText", ({ text, senderId, receiverId }) => {
+    const user = getUser(receiverId);
+    console.log(text, user);
+    io.to(user.userId).emit("getText", { senderId, text });
+  });
+  socket.on("disconnect", () => {
+    removeUser(socket.id);
+  });
 });

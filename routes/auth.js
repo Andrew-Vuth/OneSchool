@@ -62,7 +62,7 @@ router.post(
       if (!user) return res.status(400).json({ msg: "User not found!" });
 
       const isMatched = await bcrypt.compare(password, user.password);
-      if (!isMatched) return res.status(400).json({ msg: "Invalid password!" });
+      if (!isMatched) return res.status(400).json({ msg: "Wrong Credential!" });
 
       // Registering JWT
 

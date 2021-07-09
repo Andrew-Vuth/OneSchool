@@ -19,6 +19,9 @@
     components: {
       User,
     },
+    created() {
+      this.$store.dispatch("getTargetUser", this.$route.params.username);
+    },
     computed: {
       ...mapState(["user", "targetUser"]),
     },

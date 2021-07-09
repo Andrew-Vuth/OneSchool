@@ -30,7 +30,11 @@
           </p>
         </div>
         <div v-if="post.post_image" class="post-image d-block">
-          <img :src="src + post.post_image" alt="post_image" loading="lazy" />
+          <img
+            :src="src_post_image + post.post_image"
+            alt="post_image"
+            loading="lazy"
+          />
         </div>
       </div>
       <div class="row">
@@ -174,11 +178,12 @@
             : "",
         src_post_image: "http://localhost:5000/",
         link_profile: `/profile/${this.post.user.username}/posts`,
-        postLikes: this.post.likedBy.length,
-        postComments: this.post.comments.length,
+
         isLiked: false,
         isShowComment: false,
         showMore: false,
+        postLikes: this.post.likedBy.length,
+        postComments: this.post.comments.length,
       };
     },
 
@@ -192,6 +197,12 @@
           .replace("a minute ago", "1 minute ago");
         return date;
       },
+      // postLikes() {
+      //   return this.post.likedBy.length;
+      // },
+      // postComments() {
+      //   return this.post.comments.length;
+      // },
       comments() {
         return this.showMore
           ? this.post.comments
@@ -208,6 +219,8 @@
           this.isLiked = !this.isLiked;
         } else {
           this.postLikes++;
+          console.log(this.postLikes);
+
           this.isLiked = !this.isLiked;
         }
       },

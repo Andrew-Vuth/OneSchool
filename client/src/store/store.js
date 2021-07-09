@@ -8,7 +8,11 @@ const store = createStore({
   state: state,
   mutations: mutations,
   actions: actions,
-  getters: {},
+  getters: {
+    followings() {
+      return state.targetUser.followings;
+    },
+  },
   modules: {},
 });
 

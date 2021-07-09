@@ -20,11 +20,17 @@
       </a>
 
       <div class="btn-container" v-if="ownProfile">
-        <div class="btn" v-if="$route.path.includes('/followings')">
+        <div
+          class="btn"
+          v-if="$route.path.includes('/followings')"
+          @click="unfollow"
+        >
           Unfollow
         </div>
         <div class="btn" v-if="$route.path.includes('/followers')">Remove</div>
-        <div class="btn msg-btn">Message</div>
+        <a href="/chat">
+          <div class="btn msg-btn">Message</div>
+        </a>
       </div>
     </div>
   </div>
@@ -35,9 +41,17 @@
   export default {
     props: ["friend"],
     computed: {
-      ...mapState(["user"]),
+      ...mapState(["user", "alerts"]),
       ownProfile() {
         return this.user.username == this.$route.params.username;
+      },
+    },
+    methods: {
+      unfollow() {
+        this.$store.commit("setSelectedUser", this.friend);
+        this.alerts.forEach((alert) => {
+          if (alert.type === "UNFOLLOW") alert.isShown = true;
+        });
       },
     },
   };

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Conversation = require("../models/Conversation");
+const User = require("../models/User");
 
 const auth = require("../middleware/auth");
 
@@ -10,9 +11,9 @@ const auth = require("../middleware/auth");
 // @access    Private
 
 router.post("/", auth, async (req, res) => {
-  const { senderId, recieverId } = req.body;
+  const { receiverId } = req.body;
   const newConversation = new Conversation({
-    members: [senderId, recieverId],
+    members: [req.user.id, receiverId],
   });
   try {
     await newConversation.save();
@@ -23,18 +24,32 @@ router.post("/", auth, async (req, res) => {
   }
 });
 // @route     GET api/conversation
-// @desc      Get a Conversation
+// @desc      Get Conversations
 // @access    Private
 
 router.get("/", auth, async (req, res) => {
   try {
     const conversations = await Conversation.find({
       members: { $in: [req.user.id] },
-    });
-    if (!conversations)
-      return res.status(401).json({ msg: "Conversation does not exisit!" });
+    }).populate("members");
 
     res.json({ conversations });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Server Error!" });
+  }
+});
+
+// @route     GET api/conversation/:conversationId
+// @desc      Get a Conversation
+// @access    Private
+router.get("/:conversationId", auth, async (req, res) => {
+  try {
+    const conversation = await Conversation.findById({
+      _id: req.params.conversationId,
+    }).populate("members");
+
+    res.json({ conversation });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Server Error!" });

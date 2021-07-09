@@ -1,21 +1,18 @@
 <template>
-  <div>
+  <div class="position-relative">
     <div class="container-label">
       <h6>Direct Message</h6>
       <button>
         <img src="../../assets/laugh.png" />
       </button>
     </div>
-    <div class="container-fluid followings">
+    <div class="container-fluid followings ">
       <div
         class="row"
         v-for="(following, i) in user.followings.slice(0, 3)"
         :key="i"
       >
-        <a
-          class="following"
-          :href="'/profile/' + following.username + '/posts'"
-        >
+        <a class="following" :href="'/chat/'">
           <div class="userImage">
             <img
               :src="
@@ -30,10 +27,10 @@
           </div>
         </a>
       </div>
-      <a href="#">
-        <div class="float-right">See All</div>
-      </a>
     </div>
+    <a href="/chat" class="see-all">
+      <div>See All</div>
+    </a>
   </div>
 </template>
 
@@ -73,5 +70,12 @@
     margin-right: 1.5em;
     border-radius: 50%;
     width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+  .see-all {
+    position: absolute;
+    bottom: 8px;
+    right: 20px;
   }
 </style>

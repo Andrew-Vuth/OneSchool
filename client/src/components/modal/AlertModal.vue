@@ -3,7 +3,7 @@
     <div class="alert-modal">
       <p>Are you sure to unfollow this user?</p>
       <div class="cta-btn">
-        <button class="btn ghost-btn " @click="cancel">No, Keep it</button>
+        <button class="btn ghost-btn" @click="cancel">No, Keep it</button>
         <button class="btn danger" @click="unfollow">Yes, Unfollow</button>
       </div>
     </div>
@@ -15,12 +15,14 @@
   export default {
     methods: {
       unfollow() {
-        this.$store.dispatch("unfollowUser", {
-          username: this.$route.params.username,
-        });
+        this.$store.dispatch("unfollowUser", this.selectedUser.username);
         this.alerts.forEach((alert) => {
-          if (alert.type === "UNFOLLOW") alert.isShown = false;
+          if (alert.type === "UNFOLLOW") {
+            alert.isShown = false;
+            alert.unfollow = true;
+          }
         });
+        this.$store.commit("setSelectedUser", null);
       },
       cancel() {
         this.alerts.forEach((alert) => {
@@ -29,7 +31,7 @@
       },
     },
     computed: {
-      ...mapState(["alerts"]),
+      ...mapState(["alerts", "selectedUser"]),
     },
   };
 </script>

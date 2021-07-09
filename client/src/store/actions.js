@@ -174,9 +174,12 @@ export const actions = {
         "Content-Type": "application/json",
       },
     };
+    console.log("username in action:", username);
+    commit("unfollowUser", username);
     try {
-      const res = await axios.put("/api/friends/unfollow", username, config);
-      commit("setUser", res.data.currentUser);
+      await axios.put("/api/friends/unfollow", { username }, config);
+      // commit("setTargetUserFollowings", res.data.currentUser.followings);
+      // commit("setTargetUserFollowers", res.data.currentUser.followers);
     } catch (error) {
       console.error(error.response.data);
     }
@@ -203,12 +206,15 @@ export const actions = {
     }
     commit("setPostLoading", false);
   },
-  // // @des: Get Comments
-  // async getComments({commit}, postId){
-  //   try {
-  //     const res = await
-  //   } catch (error) {
 
-  //   }
-  // }
+  // @des: Get All Conversations
+  async getConversations({ commit }) {
+    try {
+      const res = await axios.get("/api/conversation");
+      commit("setConversations", res.data.conversations);
+      commit("setChatLoading", false);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

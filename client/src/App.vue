@@ -2,13 +2,10 @@
   <router-view />
 </template>
 <script>
-  import io from "socket.io-client";
   import setAuthToken from "./utils/setAuthToken";
   export default {
     name: "App",
     created() {
-      const socket = io("http://localhost:5000");
-      console.log(socket);
       if (localStorage.token) {
         setAuthToken(localStorage.token);
       }

@@ -5,10 +5,13 @@ import Register from "../components/auth/Register";
 import HomePage from "../components/pages/HomePage";
 import Profile from "../components/pages/Profile";
 import Search from "../components/pages/Search";
+import Chat from "../components/pages/Chat";
 
 import Posts from "../components/Profile/Posts";
 import Followers from "../components/Profile/Followers";
 import Followings from "../components/Profile/Followings";
+
+import Conversation from "../components/Chat/Conversation";
 
 import store from "../store/store";
 
@@ -68,6 +71,20 @@ const routes = [
         name: "Followings",
         path: "followings",
         component: Followings,
+      },
+    ],
+  },
+  {
+    name: "Chat",
+    path: "/chat",
+    component: Chat,
+    meta: {
+      requireAuth: true,
+    },
+    children: [
+      {
+        path: ":conversationId",
+        component: Conversation,
       },
     ],
   },

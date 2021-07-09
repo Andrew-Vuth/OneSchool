@@ -98,9 +98,12 @@
       };
     },
     created() {
-      if (this.user.followings.some(following => following._id === this.targetUser._id))
+      if (
+        this.user.followings.some(
+          (following) => following._id === this.targetUser._id
+        )
+      )
         this.isFollowing = true;
-     
     },
 
     computed: {
@@ -108,9 +111,6 @@
       ownProfile() {
         return this.user.username == this.$route.params.username;
       },
-      // isFollowing() {
-      //   return this.user.followings.includes(this.targetUser._id);
-      // },
     },
     methods: {
       openEdit() {
@@ -123,6 +123,7 @@
         });
       },
       unfollow() {
+        this.$store.commit("setSelectedUser", this.targetUser);
         this.alerts.forEach((alert) => {
           if (alert.type === "UNFOLLOW") alert.isShown = true;
         });
@@ -131,10 +132,15 @@
     watch: {
       alerts: {
         handler() {
-          console.log("sth changed");
           this.alerts.forEach((alert) => {
-            if (alert.type === "UNFOLLOW" && alert.isShown === false)
+            if (
+              alert.type === "UNFOLLOW" &&
+              alert.isShown === false &&
+              alert.unfollow === true
+            ) {
               this.isFollowing = false;
+            }
+            alert.unfollow = false;
           });
         },
         deep: true,

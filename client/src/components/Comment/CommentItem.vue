@@ -27,7 +27,7 @@
           </div>
           <div v-if="comment.comment_image" class="comment-image d-block">
             <img
-              :src="src + comment.comment_image"
+              :src="src_comment_image + comment.comment_image"
               alt="comment_image"
               loading="lazy"
             />
@@ -46,10 +46,11 @@
     data() {
       return {
         src:
-          this.$store.state.user.profileImage.includes("uploads\\") ||
-          this.$store.state.user.profileImage.includes("uploads/")
+          this.comment.user.profileImage.includes("uploads\\") ||
+          this.comment.user.profileImage.includes("uploads/")
             ? "http://localhost:5000/"
             : "",
+        src_comment_image: "http://localhost:5000/",
       };
     },
     computed: {
@@ -83,10 +84,7 @@
     padding: 0;
     margin: 0;
   }
-  .col-1.image {
-    /* padding: 0;
-    margin: 0; */
-  }
+
   .user-profile {
     width: 30px;
     height: 30px;

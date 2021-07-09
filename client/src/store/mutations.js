@@ -14,6 +14,12 @@ export const mutations = {
   setPostLoading(state, value) {
     state.postLoading = value;
   },
+  setChatLoading(state, value) {
+    state.chatLoading = value;
+  },
+  setConversationLoading(state, value) {
+    state.conversationLoading = value;
+  },
   setPosting(state, value) {
     state.posting = value;
   },
@@ -26,9 +32,39 @@ export const mutations = {
   setTargetUser(state, user) {
     state.targetUser = user;
   },
+  setSelectedUser(state, user) {
+    state.selectedUser = user;
+  },
+  setNewChatUser(state, user) {
+    state.newChatUser = user;
+  },
   setUsers(state, users) {
     state.users = users;
   },
+  unfollowUser(state, username) {
+    state.targetUser = {
+      ...state.targetUser,
+      followings: state.targetUser.followings.filter((following) => {
+        return following.username !== username;
+      }),
+    };
+
+    state.selectedUser = {
+      ...state.selectedUser,
+      followers: state.selectedUser.followers.filter((follower) => {
+        return follower.username !== state.targetUser.username;
+      }),
+    };
+  },
+  setTargetUserFollowings(state, followings) {
+    state.targetUser = { ...state.targetUser, followings };
+  },
+  setTargetUserFollowers(state, followers) {
+    state.targetUser = { ...state.targetUser, followers };
+  },
+  // setUserFollowings(state, followings) {
+  //   state.user = { ...state.user, followings };
+  // },
   setAllPosts(state, posts) {
     state.allPosts = posts;
   },
@@ -52,5 +88,17 @@ export const mutations = {
   },
   setProfileLoading(state, value) {
     state.profileLoading = value;
+  },
+  setCurrentChatUser(state, value) {
+    state.currentChatUser = value;
+  },
+  setConversations(state, value) {
+    state.conversations = value;
+  },
+  addConversation(state, value) {
+    state.conversations.push(value);
+  },
+  setCurrentMessages(state, value) {
+    state.currentMessages = value;
   },
 };

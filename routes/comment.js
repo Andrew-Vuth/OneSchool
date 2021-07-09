@@ -64,9 +64,11 @@ router.post("/", auth, upload.single("comment_image"), async (req, res) => {
 // @access    Private
 router.get("/:postId", auth, async (req, res) => {
   try {
-    const comments = await Comment.find({ post: req.params.postId }).sort({
-      createdAt: -1,
-    });
+    const comments = await Comment.find({ post: req.params.postId })
+      .sort({
+        createdAt: "desc",
+      })
+      .exec();
     res.json({ comments });
   } catch (error) {
     console.log(error);

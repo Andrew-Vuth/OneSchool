@@ -37,10 +37,9 @@
     },
     mounted() {
       document.title = "Profile";
-    },
-    created() {
       this.$store.dispatch("getTargetUser", this.$route.params.username);
     },
+    created() {},
     methods: {
       active(e) {
         const tabs = document.querySelectorAll(".tab");

@@ -135,7 +135,8 @@
     border-radius: 50%;
     width: 35px;
     height: 35px;
-    padding: 3px;
+    object-fit: cover;
+    padding: 2.5px;
     border: 2px var(--one-school-primary) solid;
     margin-right: 0.5em;
   }

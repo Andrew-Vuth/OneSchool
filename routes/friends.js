@@ -47,6 +47,8 @@ router.post("/following", auth, async (req, res) => {
 router.put("/unfollow", auth, async (req, res) => {
   const { username } = req.body;
 
+  console.log(username);
+
   try {
     let targetUser = await User.findOne({ username });
     if (!targetUser)
@@ -71,7 +73,7 @@ router.put("/unfollow", auth, async (req, res) => {
       },
       { new: true }
     );
-    res.json({ currentUser });
+    res.json({ currentUser, targetUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Server Error!" });
