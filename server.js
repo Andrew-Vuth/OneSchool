@@ -74,8 +74,7 @@ io.on("connection", (socket) => {
   });
   socket.on("sendText", ({ text, senderId, receiverId }) => {
     const user = getUser(receiverId);
-    console.log(text, user);
-    io.to(user.userId).emit("getText", { senderId, text });
+    io.to(user.socketId).emit("getText", { senderId, text });
   });
   socket.on("disconnect", () => {
     removeUser(socket.id);

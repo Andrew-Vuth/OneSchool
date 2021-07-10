@@ -27,7 +27,13 @@
         >
           Unfollow
         </div>
-        <div class="btn" v-if="$route.path.includes('/followers')">Remove</div>
+        <div
+          class="btn"
+          v-if="$route.path.includes('/followers')"
+          @click="removeFollower"
+        >
+          Remove
+        </div>
         <a href="/chat">
           <div class="btn msg-btn">Message</div>
         </a>
@@ -51,6 +57,12 @@
         this.$store.commit("setSelectedUser", this.friend);
         this.alerts.forEach((alert) => {
           if (alert.type === "UNFOLLOW") alert.isShown = true;
+        });
+      },
+      removeFollower() {
+        this.$store.commit("setSelectedUser", this.friend);
+        this.alerts.forEach((alert) => {
+          if (alert.type === "REMOVE_USER") alert.isShown = true;
         });
       },
     },

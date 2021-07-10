@@ -21,7 +21,17 @@
       </div>
     </div>
     <div class="row convo-body">
-      <div class="col-12"></div>
+      <div class="col-12 convo-messages">
+        <!-- <div
+          class="text"
+          v-for="message in currentMessages"
+          :key="message.text"
+        >
+          <p>
+            {{ message.text }}
+          </p>
+        </div> -->
+      </div>
     </div>
     <div class="row chat-input">
       <div class="col-12">
@@ -62,8 +72,15 @@
     </div>
     <div class="row convo-body">
       <div class="col-12 convo-messages">
-        <div class="text" v-for="message in currentMessages" :key="message._id">
-          {{ message.text }}
+        <div
+          v-for="message in currentMessages"
+          :key="message.text"
+          class="text"
+          :class="message.senderId === user._id ? 'sender' : ''"
+        >
+          <p>
+            {{ message.text }}
+          </p>
         </div>
       </div>
     </div>
@@ -94,18 +111,32 @@
       return {
         chatText: "",
         socket: null,
+        newMessage: "",
       };
     },
     async created() {
       this.getCurrentChat();
       this.socket = io("http://localhost:5000");
     },
+    mounted() {
+      this.socket.on("getText", ({ senderId, text }) => {
+        const msg = {
+          text,
+          senderId,
+          conversationId: this.$route.params.conversationId,
+        };
+
+        this.newMessage = msg;
+      });
+    },
     methods: {
       async getCurrentChat() {
+        // Check is this is new
         if (this.$route.params.conversationId === "new") return;
         const res = await axios.get(
           `api/conversation/${this.$route.params.conversationId}`
         );
+        this.currentConvo = res.data.conversation;
         const messages = await (
           await axios.get(`/api/message/${this.$route.params.conversationId}`)
         ).data.messages;
@@ -123,15 +154,20 @@
           const res = await axios.post("/api/conversation", {
             receiverId: this.newChatUser._id,
           });
-          const newConvo = await (
-            await axios.get(`api/conversation/${res.data.newConversation._id}`)
-          ).data.conversation;
+          const convo = await await axios.get(
+            `api/conversation/${res.data.newConversation._id}`
+          );
+          const newConvo = convo.data.conversation;
           this.$store.commit("addConversation", newConvo);
-          console.log(this.$store.state.conversations);
-          await axios.post(`/api/message/${res.data.newConversation._id}`, {
-            text: this.chatText,
-          });
-          await this.getCurrentChat();
+          const message = await axios.post(
+            `/api/message/${res.data.newConversation._id}`,
+            {
+              text: this.chatText,
+            }
+          );
+          const newMessage = message.data.newMessage;
+          console.log(newMessage);
+          this.$store.commit("setCurrentMessages", newMessage);
           this.chatText = "";
           this.$router.push(`/chat/${res.data.newConversation._id}`);
         } catch (error) {
@@ -140,11 +176,19 @@
       },
 
       async onChat() {
+        const msg = {
+          conversationId: this.$route.params.conversationId,
+          senderId: this.user._id,
+          text: this.chatText,
+        };
+        this.$store.commit("addMessage", msg);
+
         this.socket.emit("sendText", {
           text: this.chatText,
           senderId: this.user._id,
           receiverId: this.currentChatUser._id,
         });
+
         this.chatText = "";
       },
     },
@@ -164,6 +208,19 @@
       socket: {
         handler() {
           this.socket.emit("addUser", this.user._id);
+        },
+      },
+      newMessage: {
+        async handler() {
+          this.$store.commit("addMessage", this.newMessage);
+
+          await axios.post(
+            `/api/message/${this.$route.params.conversationId}`,
+            {
+              text: this.newMessage.text,
+            }
+          );
+          console.log(this.currentMessages);
         },
       },
     },
@@ -188,7 +245,13 @@
     flex-direction: column;
     justify-content: flex-end;
   }
-  .convo-messages .text {
+  /* .convo-messages .text {
+    width: max-content;
+    padding: 0.5em;
+   
+    background: var(--surface-l3);
+  } */
+  .text p {
     width: max-content;
     padding: 0.5em;
     border-radius: 10px;
@@ -207,5 +270,13 @@
     background: var(--surface-l4);
     color: #fff;
     border: 0;
+  }
+  .text.sender {
+    text-align: right;
+  }
+  .text.sender p {
+    display: inline-block;
+    background: var(--one-school-secondary);
+    justify-self: flex-end;
   }
 </style>

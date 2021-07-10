@@ -174,10 +174,25 @@ export const actions = {
         "Content-Type": "application/json",
       },
     };
-    console.log("username in action:", username);
     commit("unfollowUser", username);
     try {
       await axios.put("/api/friends/unfollow", { username }, config);
+      // commit("setTargetUserFollowings", res.data.currentUser.followings);
+      // commit("setTargetUserFollowers", res.data.currentUser.followers);
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  },
+  // @des: Remove a Follower
+  async removeFollower({ commit }, username) {
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+    commit("removeFollower", username);
+    try {
+      await axios.put("/api/friends/remove", { username }, config);
       // commit("setTargetUserFollowings", res.data.currentUser.followings);
       // commit("setTargetUserFollowers", res.data.currentUser.followers);
     } catch (error) {

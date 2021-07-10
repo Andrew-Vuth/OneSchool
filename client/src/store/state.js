@@ -30,5 +30,11 @@ export const state = {
       unfollow: false,
       text: "Do you want to unfollow this user?",
     },
+    {
+      type: "REMOVE_USER",
+      isShown: false,
+      unfollow: false,
+      text: "Remove this user from followers?",
+    },
   ],
 };

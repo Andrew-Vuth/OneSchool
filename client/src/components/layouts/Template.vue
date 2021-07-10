@@ -8,7 +8,16 @@
       <ProfileEdit v-if="$store.state.isEdit" />
     </transition>
     <transition name="slide-fade">
-      <AlertModal v-if="$store.state.alerts[0].isShown" />
+      <AlertModal
+        v-if="$store.state.alerts[0].isShown"
+        :alert="$store.state.alerts[0]"
+      />
+    </transition>
+    <transition name="slide-fade">
+      <AlertModal
+        v-if="$store.state.alerts[1].isShown"
+        :alert="$store.state.alerts[1]"
+      />
     </transition>
     <transition name="slide-fade-right">
       <SmallModal v-if="$store.state.posting" msg="Posting..." />

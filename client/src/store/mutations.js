@@ -56,6 +56,21 @@ export const mutations = {
       }),
     };
   },
+  removeFollower(state, username) {
+    state.targetUser = {
+      ...state.targetUser,
+      followers: state.targetUser.followers.filter((following) => {
+        return following.username !== username;
+      }),
+    };
+
+    state.selectedUser = {
+      ...state.selectedUser,
+      followings: state.selectedUser.followings.filter((follower) => {
+        return follower.username !== state.targetUser.username;
+      }),
+    };
+  },
   setTargetUserFollowings(state, followings) {
     state.targetUser = { ...state.targetUser, followings };
   },
@@ -100,5 +115,8 @@ export const mutations = {
   },
   setCurrentMessages(state, value) {
     state.currentMessages = value;
+  },
+  addMessage(state, value) {
+    state.currentMessages.push(value);
   },
 };

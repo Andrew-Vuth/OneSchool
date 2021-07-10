@@ -1,10 +1,19 @@
 <template>
   <div class="alert-modal-wrapper">
     <div class="alert-modal">
-      <p>Are you sure to unfollow this user?</p>
+      <p>{{ alert.text }}</p>
       <div class="cta-btn">
         <button class="btn ghost-btn" @click="cancel">No, Keep it</button>
-        <button class="btn danger" @click="unfollow">Yes, Unfollow</button>
+        <button
+          class="btn danger"
+          @click="unfollow"
+          v-if="alert.type === 'UNFOLLOW'"
+        >
+          Yes, Unfollow
+        </button>
+        <button class="btn danger" @click="removeFollower" v-else>
+          Yes, Remove
+        </button>
       </div>
     </div>
   </div>
@@ -13,6 +22,7 @@
 <script>
   import { mapState } from "vuex";
   export default {
+    props: ["alert"],
     methods: {
       unfollow() {
         this.$store.dispatch("unfollowUser", this.selectedUser.username);
@@ -26,8 +36,19 @@
       },
       cancel() {
         this.alerts.forEach((alert) => {
-          if (alert.type === "UNFOLLOW") alert.isShown = false;
+          if (alert.type === "UNFOLLOW" || alert.type === "REMOVE_USER")
+            alert.isShown = false;
         });
+      },
+      removeFollower() {
+        this.$store.dispatch("removeFollower", this.selectedUser.username);
+        this.alerts.forEach((alert) => {
+          if (alert.type === "REMOVE_USER") {
+            alert.isShown = false;
+            alert.unfollow = true;
+          }
+        });
+        this.$store.commit("setSelectedUser", null);
       },
     },
     computed: {
